@@ -27,14 +27,17 @@ class Gallery extends Model
      */
     public function getImageUrlFullAttribute()
     {
+        // If it's already a full URL, return as is
         if (filter_var($this->image_url, FILTER_VALIDATE_URL)) {
             return $this->image_url;
         }
         
+        // If file exists in storage, return storage URL
         if (Storage::disk('public')->exists($this->image_url)) {
-            return Storage::disk('public')->url($this->image_url);
+            return asset('storage/' . $this->image_url);
         }
         
+        // Otherwise return as asset
         return asset($this->image_url);
     }
 
