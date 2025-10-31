@@ -8,12 +8,13 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('gallery', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->string('image_url')->nullable();
-            $table->timestamps('uploaded_at');
-        });
+    Schema::create('gallery', function (Blueprint $table) {
+        $table->id();
+        $table->string('title');
+        $table->string('image_url')->nullable();
+        $table->timestamp('uploaded_at')->nullable();
+    });
+
     }
 
     public function down(): void
