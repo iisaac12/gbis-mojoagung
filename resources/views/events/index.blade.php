@@ -5,7 +5,7 @@
 @push('styles')
 <style>
     .events-hero {
-        background: linear-gradient(135deg, #004AAD 0%, #0066CC 100%);
+        background: linear-gradient(135deg, #C62828 0%, #E53935 100%);
         color: white;
         padding: 3rem 2rem;
         text-align: center;

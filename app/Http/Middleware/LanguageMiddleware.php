@@ -11,14 +11,27 @@ class LanguageMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        $locale = Session::get('locale', config('app.locale', 'id'));
-        
+        $locale = Session::get('locale');
+
+        // Kalau $locale bukan string, reset jadi 'id'
+        if (!is_string($locale)) {
+            Session::forget('locale');
+            $locale = 'id';
+        }
+
+        // Kalau kosong, juga set default
+        if (empty($locale)) {
+            $locale = 'id';
+        }
+
+        // Validasi bahasa yg didukung
         if (!in_array($locale, ['id', 'en'])) {
             $locale = 'id';
         }
-        
+
+        // Terapkan locale
         App::setLocale($locale);
-        
+
         return $next($request);
     }
 }
