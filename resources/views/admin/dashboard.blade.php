@@ -136,7 +136,7 @@
         color: #2e7d32;
     }
     
-    @media (max-width: 768px) {
+    @\media (max-width: 768px) {
         .dashboard-header h1 {
             font-size: 1.5rem;
         }
