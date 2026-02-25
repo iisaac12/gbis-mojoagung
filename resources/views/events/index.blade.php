@@ -1,19 +1,48 @@
 @extends('layouts.app')
 
-@section('title', (session('locale') == 'en' ? 'Events' : 'Acara') . ' - GBIS Mojoagung')
+@section('title', 'Acara - GBIS Mojoagung')
 
 @push('styles')
 <style>
     .events-hero {
         background: linear-gradient(135deg, #C62828 0%, #E53935 100%);
         color: white;
-        padding: 3rem 2rem;
+        padding: 6rem 2rem;
         text-align: center;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 40vh;
     }
-    
+
+    .events-hero-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .events-hero h1, .events-hero p {
+        opacity: 0;
+        transform: translateY(30px);
+        animation: ElegantFade 1s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+    }
+
     .events-hero h1 {
-        font-size: 2.5rem;
-        margin-bottom: 0.5rem;
+        animation-delay: 0.2s;
+        font-size: 3.5rem;
+        font-weight: 800;
+        text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .events-hero p {
+        animation-delay: 0.5s;
+        font-size: 1.2rem;
+    }
+
+    .scroll-animate {
+        transition: transform 1s ease-out, opacity 1s ease-out;
     }
     
     .search-filter {
@@ -40,23 +69,25 @@
         background: white;
         border-radius: 15px;
         overflow: hidden;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        transition: all 0.3s;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         text-decoration: none;
         color: inherit;
         display: block;
+        border: 1px solid rgba(0,0,0,0.05);
     }
     
     .event-card:hover {
         transform: translateY(-10px);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.15);
     }
     
     .event-image {
         width: 100%;
-        height: 200px;
-        object-fit: cover;
+        height: auto;
+        display: block;
         background: linear-gradient(135deg, #004AAD 0%, #0066CC 100%);
+        min-height: 180px;
     }
     
     .event-content {
@@ -74,13 +105,15 @@
 
 @section('content')
 <section class="events-hero">
-    <h1>{{ session('locale') == 'en' ? 'Church Events' : 'Acara Gereja' }}</h1>
-    <p>{{ session('locale') == 'en' ? 'Special events and activities' : 'Acara dan kegiatan khusus' }}</p>
+    <div class="events-hero-content scroll-animate" id="events-hero-content">
+        <h1>Acara Gereja</h1>
+        <p>Acara dan kegiatan khusus</p>
+    </div>
 </section>
 
 <div class="events-grid">
-    @forelse($events as $event)
-    <a href="{{ route('events.show', $event->id) }}" class="event-card">
+    @forelse($events as $index => $event)
+    <a href="{{ route('events.show', $event->id) }}" class="event-card reveal" style="transition-delay: {{ $index * 0.1 }}s;">
         @if($event->image_url)
         <img src="{{ asset('storage/' . $event->image_url) }}" alt="{{ $event->title }}" class="event-image">
         @else
@@ -97,7 +130,7 @@
     </a>
     @empty
     <p style="grid-column: 1/-1; text-align: center; color: #999; padding: 4rem;">
-        {{ session('locale') == 'en' ? 'No events found' : 'Tidak ada acara ditemukan' }}
+        Tidak ada acara ditemukan
     </p>
     @endforelse
 </div>
@@ -106,3 +139,23 @@
     {{ $events->links() }}
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('scroll', function() {
+        const heroContent = document.getElementById('events-hero-content');
+        if (!heroContent) return;
+        
+        const scrollPosition = window.scrollY;
+        const opacity = 1 - (scrollPosition / 300);
+        const transform = scrollPosition * 0.3;
+        
+        if (opacity >= 0) {
+            heroContent.style.opacity = opacity;
+            heroContent.style.transform = `translateY(${transform}px)`;
+        } else {
+            heroContent.style.opacity = 0;
+        }
+    });
+</script>
+@endpush

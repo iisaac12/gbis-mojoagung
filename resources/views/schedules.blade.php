@@ -1,19 +1,48 @@
 @extends('layouts.app')
 
-@section('title', (session('locale') == 'en' ? 'Service Schedules' : 'Jadwal Ibadah') . ' - GBIS Mojoagung')
+@section('title', 'Jadwal Ibadah - GBIS Mojoagung')
 
 @push('styles')
 <style>
     .schedules-hero {
         background: linear-gradient(135deg, #004AAD 0%, #0066CC 100%);
         color: white;
-        padding: 3rem 2rem;
+        padding: 6rem 2rem;
         text-align: center;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 40vh;
     }
-    
+
+    .schedules-hero-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .schedules-hero h1, .schedules-hero p {
+        opacity: 0;
+        transform: translateY(30px);
+        animation: ElegantFade 1s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+    }
+
     .schedules-hero h1 {
-        font-size: 2.5rem;
-        margin-bottom: 0.5rem;
+        animation-delay: 0.2s;
+        font-size: 3.5rem;
+        font-weight: 800;
+        text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .schedules-hero p {
+        animation-delay: 0.5s;
+        font-size: 1.2rem;
+    }
+
+    .scroll-animate {
+        transition: transform 1s ease-out, opacity 1s ease-out;
     }
     
     .filters {
@@ -75,14 +104,15 @@
         background: white;
         padding: 2rem;
         border-radius: 15px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         border-left: 5px solid var(--primary-blue);
-        transition: all 0.3s;
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        border: 1px solid rgba(0,0,0,0.05);
     }
     
     .schedule-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
     }
     
     .schedule-card h3 {
@@ -101,30 +131,6 @@
     
     .schedule-info strong {
         color: var(--primary-red);
-    }
-    
-    .language-badge {
-        display: inline-block;
-        padding: 0.25rem 0.75rem;
-        border-radius: 15px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        margin-top: 1rem;
-    }
-    
-    .badge-id {
-        background: #e3f2fd;
-        color: #1976d2;
-    }
-    
-    .badge-en {
-        background: #f3e5f5;
-        color: #7b1fa2;
-    }
-    
-    .badge-both {
-        background: #e8f5e9;
-        color: #388e3c;
     }
     
     .no-results {
@@ -173,50 +179,28 @@
 @section('content')
 <!-- Hero Section -->
 <section class="schedules-hero">
-    <h1>{{ session('locale') == 'en' ? 'Service Schedules' : 'Jadwal Ibadah' }}</h1>
-    <p>{{ session('locale') == 'en' 
-        ? 'Join us in worship and fellowship' 
-        : 'Bergabunglah bersama kami dalam ibadah dan persekutuan' }}</p>
+    <div class="schedules-hero-content scroll-animate" id="schedules-hero-content">
+        <h1>Jadwal Ibadah</h1>
+        <p>Bergabunglah bersama kami dalam ibadah dan persekutuan</p>
+    </div>
 </section>
 
 <!-- Filters -->
-<div class="filters">
+<div class="filters reveal">
     <div class="filter-row">
         <div class="filter-group">
-            <label style="font-weight: 600; color: #555;">
-                {{ session('locale') == 'en' ? 'Time:' : 'Waktu:' }}
-            </label>
-            <a href="{{ route('schedules', ['filter' => 'upcoming', 'language' => request('language', 'all')]) }}" 
+            <label style="font-weight: 600; color: #555;">Tampilkan:</label>
+            <a href="{{ route('schedules', ['filter' => 'upcoming']) }}" 
                class="filter-btn {{ request('filter', 'upcoming') == 'upcoming' ? 'active' : '' }}">
-                {{ session('locale') == 'en' ? 'Upcoming' : 'Mendatang' }}
+                Mendatang
             </a>
-            <a href="{{ route('schedules', ['filter' => 'past', 'language' => request('language', 'all')]) }}" 
+            <a href="{{ route('schedules', ['filter' => 'past']) }}" 
                class="filter-btn {{ request('filter') == 'past' ? 'active' : '' }}">
-                {{ session('locale') == 'en' ? 'Past' : 'Lampau' }}
+                Lampau
             </a>
-            <a href="{{ route('schedules', ['filter' => 'all', 'language' => request('language', 'all')]) }}" 
+            <a href="{{ route('schedules', ['filter' => 'all']) }}" 
                class="filter-btn {{ request('filter') == 'all' ? 'active' : '' }}">
-                {{ session('locale') == 'en' ? 'All' : 'Semua' }}
-            </a>
-        </div>
-        
-        <div style="width: 2px; height: 30px; background: #ddd;"></div>
-        
-        <div class="filter-group">
-            <label style="font-weight: 600; color: #555;">
-                {{ session('locale') == 'en' ? 'Language:' : 'Bahasa:' }}
-            </label>
-            <a href="{{ route('schedules', ['language' => 'all', 'filter' => request('filter', 'upcoming')]) }}" 
-               class="filter-btn {{ request('language', 'all') == 'all' ? 'active' : '' }}">
-                {{ session('locale') == 'en' ? 'All' : 'Semua' }}
-            </a>
-            <a href="{{ route('schedules', ['language' => 'id', 'filter' => request('filter', 'upcoming')]) }}" 
-               class="filter-btn {{ request('language') == 'id' ? 'active' : '' }}">
-                🇮🇩 Indonesia
-            </a>
-            <a href="{{ route('schedules', ['language' => 'en', 'filter' => request('filter', 'upcoming')]) }}" 
-               class="filter-btn {{ request('language') == 'en' ? 'active' : '' }}">
-                🇬🇧 English
+                Semua
             </a>
         </div>
     </div>
@@ -226,8 +210,8 @@
 <section class="section">
     @if($services->count() > 0)
     <div class="schedule-grid">
-        @foreach($services as $service)
-        <div class="schedule-card">
+        @foreach($services as $index => $service)
+        <div class="schedule-card reveal" style="transition-delay: {{ $index * 0.1 }}s;">
             <h3>{{ $service->title }}</h3>
             
             <div class="schedule-info">
@@ -249,16 +233,6 @@
             @if($service->description)
             <p style="margin-top: 1rem; color: #666;">{{ Str::limit($service->description, 100) }}</p>
             @endif
-            
-            <span class="language-badge badge-{{ $service->language }}">
-                @if($service->language == 'id')
-                    🇮🇩 Bahasa Indonesia
-                @elseif($service->language == 'en')
-                    🇬🇧 English
-                @else
-                    🌐 {{ session('locale') == 'en' ? 'Bilingual' : 'Dwi Bahasa' }}
-                @endif
-            </span>
         </div>
         @endforeach
     </div>
@@ -269,10 +243,8 @@
     </div>
     @else
     <div class="no-results">
-        <h3>{{ session('locale') == 'en' ? 'No schedules found' : 'Tidak ada jadwal ditemukan' }}</h3>
-        <p>{{ session('locale') == 'en' 
-            ? 'Please try different filters or check back later.' 
-            : 'Silakan coba filter lain atau periksa kembali nanti.' }}</p>
+        <h3>Tidak ada jadwal ditemukan</h3>
+        <p>Silakan coba filter lain atau periksa kembali nanti.</p>
     </div>
     @endif
 </section>

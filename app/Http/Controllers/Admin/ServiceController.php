@@ -15,12 +15,12 @@ class ServiceController extends Controller
     public function index()
     {
         $services = Service::orderBy('date', 'desc')
-                          ->orderBy('time_start', 'desc')
-                          ->paginate(15);
-        
+            ->orderBy('time_start', 'desc')
+            ->paginate(15);
+
         return view('admin.services.index', compact('services'));
     }
-    
+
     /**
      * Show the form for creating a new service
      */
@@ -28,7 +28,7 @@ class ServiceController extends Controller
     {
         return view('admin.services.create');
     }
-    
+
     /**
      * Store a newly created service
      */
@@ -41,21 +41,20 @@ class ServiceController extends Controller
             'time_end' => 'required|date_format:H:i|after:time_start',
             'location' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'language' => 'required|in:id,en,both',
         ]);
-        
+
         if ($validator->fails()) {
             return redirect()->back()
-                           ->withErrors($validator)
-                           ->withInput();
+                ->withErrors($validator)
+                ->withInput();
         }
-        
+
         Service::create($request->all());
-        
+
         return redirect()->route('admin.services.index')
-                       ->with('success', 'Service created successfully!');
+            ->with('success', 'Service created successfully!');
     }
-    
+
     /**
      * Show the form for editing a service
      */
@@ -64,7 +63,7 @@ class ServiceController extends Controller
         $service = Service::findOrFail($id);
         return view('admin.services.edit', compact('service'));
     }
-    
+
     /**
      * Update the specified service
      */
@@ -77,22 +76,21 @@ class ServiceController extends Controller
             'time_end' => 'required|date_format:H:i|after:time_start',
             'location' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'language' => 'required|in:id,en,both',
         ]);
-        
+
         if ($validator->fails()) {
             return redirect()->back()
-                           ->withErrors($validator)
-                           ->withInput();
+                ->withErrors($validator)
+                ->withInput();
         }
-        
+
         $service = Service::findOrFail($id);
         $service->update($request->all());
-        
+
         return redirect()->route('admin.services.index')
-                       ->with('success', 'Service updated successfully!');
+            ->with('success', 'Service updated successfully!');
     }
-    
+
     /**
      * Remove the specified service
      */
@@ -100,8 +98,8 @@ class ServiceController extends Controller
     {
         $service = Service::findOrFail($id);
         $service->delete();
-        
+
         return redirect()->route('admin.services.index')
-                       ->with('success', 'Service deleted successfully!');
+            ->with('success', 'Service deleted successfully!');
     }
 }

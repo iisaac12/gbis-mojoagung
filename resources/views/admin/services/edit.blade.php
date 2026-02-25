@@ -96,20 +96,9 @@
             <input type="text" id="title" name="title" value="{{ old('title', $service->title ?? '') }}" required>
         </div>
         
-        <div class="form-row">
-            <div class="form-group">
-                <label for="date">Date *</label>
-                <input type="date" id="date" name="date" value="{{ old('date', isset($service) ? $service->date->format('Y-m-d') : '') }}" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="language">Language *</label>
-                <select id="language" name="language" required>
-                    <option value="id" {{ old('language', $service->language ?? '') == 'id' ? 'selected' : '' }}>🇮🇩 Indonesia</option>
-                    <option value="en" {{ old('language', $service->language ?? '') == 'en' ? 'selected' : '' }}>🇬🇧 English</option>
-                    <option value="both" {{ old('language', $service->language ?? '') == 'both' ? 'selected' : '' }}>🌐 Both</option>
-                </select>
-            </div>
+        <div class="form-group">
+            <label for="date">Date *</label>
+            <input type="date" id="date" name="date" value="{{ old('date', isset($service) ? $service->date->format('Y-m-d') : '') }}" required>
         </div>
         
         <div class="form-row">

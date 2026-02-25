@@ -7,9 +7,10 @@
     .dashboard-header {
         background: linear-gradient(135deg, #004AAD 0%, #0066CC 100%);
         color: white;
-        padding: 2rem;
-        border-radius: 15px;
-        margin-bottom: 2rem;
+        padding: 2.5rem 2rem;
+        border-radius: 20px;
+        margin-bottom: 2.5rem;
+        box-shadow: 0 10px 20px rgba(0,74,173,0.2);
     }
     
     .dashboard-header h1 {
@@ -136,13 +137,28 @@
         color: #2e7d32;
     }
     
-    @\media (max-width: 768px) {
+    @media (max-width: 968px) {
+        .dashboard-header {
+            padding: 2rem 1.5rem;
+            text-align: center;
+        }
+
         .dashboard-header h1 {
-            font-size: 1.5rem;
+            font-size: 1.75rem;
         }
         
         .stats-grid {
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+    }
+
+    @media (max-width: 480px) {
+        .dashboard-header h1 {
+            font-size: 1.5rem;
+        }
+
+        .stats-grid {
+            grid-template-columns: 1fr;
         }
     }
 </style>
@@ -150,8 +166,8 @@
 
 @section('content')
 <div class="dashboard-header">
-    <h1>👋 Welcome, {{ auth()->user()->username }}!</h1>
-    <p>Here's what's happening with your church management</p>
+    <h1>Welcome back {{ auth()->user()->username }}!</h1>
+    <p>Here's what's happening with your church!</p>
 </div>
 
 <!-- Statistics -->
@@ -189,7 +205,7 @@
 <div class="recent-section">
     <h2>
         Recent Services
-        <a href="{{ route('admin.services.index') }}" class="view-all">View All →</a>
+        <a href="{{ route('admin.services.index') }}" class="view-all">View All</a>
     </h2>
     
     <div class="table-container">
@@ -230,7 +246,7 @@
 <div class="recent-section">
     <h2>
         Recent Events
-        <a href="{{ route('admin.events.index') }}" class="view-all">View All →</a>
+        <a href="{{ route('admin.events.index') }}" class="view-all">View All</a>
     </h2>
     
     <div class="table-container">
@@ -254,7 +270,7 @@
                         </span>
                     </td>
                     <td>
-                        <a href="{{ route('events.show', $event->id) }}" style="color: var(--primary-blue); text-decoration: none;">View →</a>
+                        <a href="{{ route('events.show', $event->id) }}" style="color: var(--primary-blue); text-decoration: none;">View</a>
                     </td>
                 </tr>
                 @empty

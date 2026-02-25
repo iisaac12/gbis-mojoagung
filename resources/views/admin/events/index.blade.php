@@ -20,9 +20,10 @@
     
     .event-image-admin {
         width: 100%;
-        height: 180px;
-        object-fit: cover;
+        height: auto;
+        display: block;
         background: linear-gradient(135deg, #004AAD 0%, #0066CC 100%);
+        min-height: 150px;
     }
     
     .event-content-admin {
@@ -38,8 +39,38 @@
 @endpush
 
 @section('content')
+<style>
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2.5rem;
+        gap: 1rem;
+    }
+    
+    .page-header h1 {
+        color: var(--primary-blue);
+        font-size: 2rem;
+    }
+
+    @media (max-width: 768px) {
+        .page-header {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 1.75rem;
+        }
+
+        .btn-primary {
+            width: 100%;
+        }
+    }
+</style>
+
 <div class="page-header">
-    <h1>🎉 Manage Events</h1>
+    <h1>Manage Events</h1>
     <a href="{{ route('admin.events.create') }}" class="btn btn-primary">+ Add New Event</a>
 </div>
 
@@ -51,7 +82,7 @@
     @forelse($events as $event)
     <div class="event-card-admin">
         @if($event->image_url)
-        <img src="{{ Storage::url($event->image_url) }}" alt="{{ $event->title }}" class="event-image-admin">
+        <img src="{{ asset('storage/' . $event->image_url) }}" alt="{{ $event->title }}" class="event-image-admin">
         @else
         <div class="event-image-admin"></div>
         @endif

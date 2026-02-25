@@ -107,7 +107,7 @@
             @if($event->image_url)
             <div class="current-image">
                 <p style="margin-bottom: 0.5rem; font-size: 0.85rem; color: #666; font-weight: 500;">Current Image:</p>
-                <img src="{{ Storage::url($event->image_url) }}" alt="Current image" style="max-width: 250px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                <img src="{{ asset('storage/' . $event->image_url) }}" alt="Current image" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: block;">
             </div>
             @endif
             <input type="file" id="image" name="image" class="form-control" accept="image/*" style="margin-top: 1rem; padding: 0.6rem;">

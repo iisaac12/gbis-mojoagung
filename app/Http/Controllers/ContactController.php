@@ -25,7 +25,7 @@ class ContactController extends Controller
         ]);
 
         $isGuest = !Auth::check();
-        $userId = Auth::check() ? Auth::id() : null;
+        $userId = Auth::check() ?Auth::id() : null;
 
         // Save to database
         Contact::create([
@@ -41,13 +41,11 @@ class ContactController extends Controller
             $churchInfo = ChurchInfo::first();
             Mail::raw($request->message, function ($mail) use ($request, $churchInfo) {
                 $mail->from($request->email, $request->name)
-                     ->to($churchInfo->email)
-                     ->subject('Pesan Baru dari Website GBIS Mojoagung');
+                    ->to($churchInfo->email)
+                    ->subject('Pesan Baru dari Website GBIS Mojoagung');
             });
         }
 
-        return redirect()->back()->with('success', session('locale') == 'en' 
-            ? 'Your message has been sent successfully!' 
-            : 'Pesan Anda telah terkirim!');
+        return redirect()->back()->with('success', 'Pesan Anda telah terkirim!');
     }
 }

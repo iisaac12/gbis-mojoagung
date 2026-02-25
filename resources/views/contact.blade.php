@@ -1,19 +1,51 @@
 @extends('layouts.app')
 
-@section('title', (session('locale') == 'en' ? 'Contact Us' : 'Hubungi Kami') . ' - GBIS Mojoagung')
+@section('title', 'Hubungi Kami - GBIS Mojoagung')
 
 @push('styles')
 <style>
     .contact-hero {
         background: linear-gradient(135deg, #004AAD 0%, #0066CC 100%);
         color: white;
-        padding: 3rem 2rem;
+        padding: 6rem 2rem;
         text-align: center;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 40vh;
+    }
+
+    .contact-hero-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .contact-hero h1, .contact-hero p {
+        opacity: 0;
+        transform: translateY(30px);
+        animation: ElegantFade 1s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+    }
+
+    .contact-hero h1 {
+        animation-delay: 0.2s;
+    }
+
+    .contact-hero p {
+        animation-delay: 0.5s;
+    }
+
+    .scroll-animate {
+        transition: transform 1s ease-out, opacity 1s ease-out;
     }
     
     .contact-hero h1 {
-        font-size: 2.5rem;
-        margin-bottom: 0.5rem;
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        text-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
     
     .contact-container {
@@ -31,8 +63,10 @@
     
     .contact-info {
         background: var(--gray-light);
-        padding: 2rem;
+        padding: 2.5rem;
         border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        border: 1px solid rgba(0,0,0,0.05);
     }
     
     .contact-info h2 {
@@ -74,9 +108,10 @@
     
     .contact-form {
         background: white;
-        padding: 2rem;
+        padding: 2.5rem;
         border-radius: 15px;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        border: 1px solid rgba(0,0,0,0.03);
     }
     
     .contact-form h2 {
@@ -168,13 +203,30 @@
         border: none;
     }
     
-    @media (max-width: 968px) {
+    @media (max-width: 768px) {
+        .contact-hero {
+            padding: 4rem 1.5rem;
+        }
+
         .contact-hero h1 {
-            font-size: 2rem;
+            font-size: 2.25rem;
         }
         
+        .contact-container {
+            padding: 2rem 1.5rem;
+        }
+
         .contact-grid {
             grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .contact-info, .contact-form {
+            padding: 1.5rem;
+        }
+
+        .btn-submit {
+            padding: 1.1rem;
         }
     }
 </style>
@@ -183,23 +235,23 @@
 @section('content')
 <!-- Hero Section -->
 <section class="contact-hero">
-    <h1>{{ session('locale') == 'en' ? 'Contact Us' : 'Hubungi Kami' }}</h1>
-    <p>{{ session('locale') == 'en' 
-        ? 'We\'d love to hear from you!' 
-        : 'Kami senang mendengar dari Anda!' }}</p>
+    <div class="contact-hero-content scroll-animate" id="contact-hero-content">
+        <h1>Hubungi Kami</h1>
+        <p>Kami senang mendengar dari Anda!</p>
+    </div>
 </section>
 
 <!-- Contact Content -->
 <div class="contact-container">
     <div class="contact-grid">
         <!-- Contact Information -->
-        <div class="contact-info">
-            <h2>{{ session('locale') == 'en' ? 'Get In Touch' : 'Informasi Kontak' }}</h2>
+        <div class="contact-info reveal" style="transition-delay: 0.1s;">
+            <h2>Informasi Kontak</h2>
             
             <div class="info-item">
                 <span class="info-icon">📍</span>
                 <div class="info-content">
-                    <h3>{{ session('locale') == 'en' ? 'Address' : 'Alamat' }}</h3>
+                    <h3>Alamat</h3>
                     <p>{{ $churchInfo->address ?? 'Jl. Raya Mojoagung No. 123, Mojoagung, Jombang, Jawa Timur 61482' }}</p>
                 </div>
             </div>
@@ -207,7 +259,7 @@
             <div class="info-item">
                 <span class="info-icon">📞</span>
                 <div class="info-content">
-                    <h3>{{ session('locale') == 'en' ? 'Phone' : 'Telepon' }}</h3>
+                    <h3>Telepon</h3>
                     <a href="tel:{{ $churchInfo->phone ?? '(0321) 123456' }}">
                         {{ $churchInfo->phone ?? '(0321) 123456' }}
                     </a>
@@ -229,15 +281,15 @@
                 <div class="info-content">
                     <h3>WhatsApp</h3>
                     <a href="{{ $churchInfo->whatsapp_link ?? 'https://wa.me/6281234567890' }}" target="_blank">
-                        {{ session('locale') == 'en' ? 'Chat with us' : 'Chat dengan kami' }}
+                        Chat dengan kami
                     </a>
                 </div>
             </div>
         </div>
         
         <!-- Contact Form -->
-        <div class="contact-form">
-            <h2>{{ session('locale') == 'en' ? 'Send us a Message' : 'Kirim Pesan' }}</h2>
+        <div class="contact-form reveal" style="transition-delay: 0.3s;">
+            <h2>Kirim Pesan</h2>
             
             @if(session('success'))
             <div class="alert alert-success">
@@ -259,12 +311,12 @@
                 @csrf
                 
                 <div class="form-group">
-                    <label for="name">{{ session('locale') == 'en' ? 'Name' : 'Nama' }} *</label>
+                    <label for="name">Nama *</label>
                     <input type="text" 
                            id="name" 
                            name="name" 
                            value="{{ old('name', auth()->user()->username ?? '') }}"
-                           placeholder="{{ session('locale') == 'en' ? 'Your name' : 'Nama Anda' }}"
+                           placeholder="Nama Anda"
                            required>
                 </div>
                 
@@ -274,33 +326,29 @@
                            id="email" 
                            name="email" 
                            value="{{ old('email', auth()->user()->email ?? '') }}"
-                           placeholder="{{ session('locale') == 'en' ? 'Your email' : 'Email Anda' }}"
+                           placeholder="Email Anda"
                            required>
                 </div>
                 
                 <div class="form-group">
-                    <label for="message">{{ session('locale') == 'en' ? 'Message' : 'Pesan' }} *</label>
+                    <label for="message">Pesan *</label>
                     <textarea id="message" 
                               name="message" 
-                              placeholder="{{ session('locale') == 'en' ? 'Your message...' : 'Pesan Anda...' }}"
+                              placeholder="Pesan Anda..."
                               required>{{ old('message') }}</textarea>
                 </div>
                 
                 <button type="submit" class="btn-submit">
-                    {{ session('locale') == 'en' ? 'Send Message' : 'Kirim Pesan' }}
+                    Kirim Pesan
                 </button>
                 
                 @guest
                 <p style="margin-top: 1rem; text-align: center; color: #666; font-size: 0.9rem;">
-                    {{ session('locale') == 'en' 
-                        ? 'Your message will be sent via email' 
-                        : 'Pesan Anda akan dikirim via email' }}
+                    Pesan Anda akan dikirim via email
                 </p>
                 @else
                 <p style="margin-top: 1rem; text-align: center; color: #666; font-size: 0.9rem;">
-                    {{ session('locale') == 'en' 
-                        ? 'Logged in as ' . auth()->user()->username 
-                        : 'Login sebagai ' . auth()->user()->username }}
+                    Login sebagai {{ auth()->user()->username }}
                 </p>
                 @endguest
             </form>
@@ -308,7 +356,7 @@
     </div>
     
     <!-- Google Maps -->
-<div class="map-container">
+<div class="map-container reveal">
     @if(isset($churchInfo->map_embed))
         {!! $churchInfo->map_embed !!}
     @else
@@ -322,3 +370,24 @@
         </iframe>
     @endif
 </div>
+@endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('scroll', function() {
+        const heroContent = document.getElementById('contact-hero-content');
+        if (!heroContent) return;
+        
+        const scrollPosition = window.scrollY;
+        const opacity = 1 - (scrollPosition / 300);
+        const transform = scrollPosition * 0.3;
+        
+        if (opacity >= 0) {
+            heroContent.style.opacity = opacity;
+            heroContent.style.transform = `translateY(${transform}px)`;
+        } else {
+            heroContent.style.opacity = 0;
+        }
+    });
+</script>
+@endpush

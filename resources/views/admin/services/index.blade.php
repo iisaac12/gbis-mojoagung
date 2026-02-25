@@ -8,7 +8,8 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 2rem;
+        margin-bottom: 2.5rem;
+        gap: 1rem;
     }
     
     .page-header h1 {
@@ -76,12 +77,32 @@
         background: #d4edda;
         color: #155724;
     }
+    @media (max-width: 768px) {
+        .page-header {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 1.75rem;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .btn-sm {
+            width: 100%;
+            text-align: center;
+        }
+    }
 </style>
 @endpush
 
 @section('content')
 <div class="page-header">
-    <h1>📅 Manage Services</h1>
+    <h1>Manage Services</h1>
     <a href="{{ route('admin.services.create') }}" class="btn btn-primary">+ Add New Service</a>
 </div>
 
@@ -98,7 +119,6 @@
                     <th>Date</th>
                     <th>Time</th>
                     <th>Location</th>
-                    <th>Language</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -109,11 +129,6 @@
                     <td>{{ \Carbon\Carbon::parse($service->date)->format('d M Y') }}</td>
                     <td>{{ \Carbon\Carbon::parse($service->time_start)->format('H:i') }}</td>
                     <td>{{ $service->location }}</td>
-                    <td>
-                        @if($service->language == 'id') 🇮🇩
-                        @elseif($service->language == 'en') 🇬🇧
-                        @else 🌐 @endif
-                    </td>
                     <td>
                         <div class="action-buttons">
                             <a href="{{ route('admin.services.edit', $service->id) }}" class="btn btn-sm btn-edit">Edit</a>

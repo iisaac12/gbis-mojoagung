@@ -16,7 +16,6 @@ class Service extends Model
         'time_end',
         'location',
         'description',
-        'language'
     ];
 
     protected $casts = [

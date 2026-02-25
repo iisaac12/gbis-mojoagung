@@ -126,10 +126,8 @@
 <div class="login-container">
     <div class="login-box">
         <div class="login-header">
-            <h1>{{ session('locale') == 'en' ? 'Login' : 'Masuk' }}</h1>
-            <p>{{ session('locale') == 'en' 
-                ? 'Welcome back! Please login to your account' 
-                : 'Selamat datang kembali! Silakan masuk ke akun Anda' }}</p>
+            <h1>Masuk</h1>
+            <p>Selamat datang kembali! Silakan masuk ke akun Anda</p>
         </div>
         
         @if($errors->any())
@@ -144,40 +142,38 @@
             @csrf
             
             <div class="form-group">
-                <label for="email">{{ session('locale') == 'en' ? 'Email or Username' : 'Email atau Username' }}</label>
+                <label for="email">Email atau Username</label>
                 <input 
                     type="text" 
                     id="email" 
                     name="email" 
                     value="{{ old('email') }}"
-                    placeholder="{{ session('locale') == 'en' ? 'Enter your email or username' : 'Masukkan email atau username' }}"
+                    placeholder="Masukkan email atau username"
                     required
                     autofocus
                 >
             </div>
             
             <div class="form-group">
-                <label for="password">{{ session('locale') == 'en' ? 'Password' : 'Kata Sandi' }}</label>
+                <label for="password">Kata Sandi</label>
                 <input 
                     type="password" 
                     id="password" 
                     name="password" 
-                    placeholder="{{ session('locale') == 'en' ? 'Enter your password' : 'Masukkan kata sandi' }}"
+                    placeholder="Masukkan kata sandi"
                     required
                 >
             </div>
             
             <button type="submit" class="btn-login">
-                {{ session('locale') == 'en' ? 'Login' : 'Masuk' }}
+                Masuk
             </button>
         </form>
         
         <div class="guest-link">
-            <p>{{ session('locale') == 'en' ? 'or' : 'atau' }}</p>
+            <p>atau</p>
             <a href="{{ route('home') }}">
-                {{ session('locale') == 'en' 
-                    ? 'Continue as Guest' 
-                    : 'Lanjutkan sebagai Tamu' }}
+                Lanjutkan sebagai Tamu
             </a>
         </div>
     </div>

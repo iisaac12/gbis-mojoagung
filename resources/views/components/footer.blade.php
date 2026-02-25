@@ -3,9 +3,7 @@
         <div class="footer-content">
             <div class="footer-section">
                 <h3>GBIS Mojoagung</h3>
-                <p>{{ session('locale') == 'en' 
-                    ? 'Spreading the love of Christ to the world' 
-                    : 'Menyebarkan kasih Kristus ke seluruh dunia' }}</p>
+                <p>Menyebarkan kasih Kristus ke seluruh dunia</p>
                 <div class="social-links">
                     <a href="#" target="_blank" title="Facebook">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
@@ -26,15 +24,15 @@
             </div>
             
             <div class="footer-section">
-                <h3>{{ session('locale') == 'en' ? 'Quick Links' : 'Link Cepat' }}</h3>
-                <a href="{{ route('about') }}">{{ session('locale') == 'en' ? 'About Us' : 'Tentang Kami' }}</a>
-                <a href="{{ route('schedules') }}">{{ session('locale') == 'en' ? 'Service Schedule' : 'Jadwal Ibadah' }}</a>
-                <a href="{{ route('events') }}">{{ session('locale') == 'en' ? 'Events' : 'Acara' }}</a>
-                <a href="{{ route('contact') }}">{{ session('locale') == 'en' ? 'Contact Us' : 'Hubungi Kami' }}</a>
+                <h3>Link Cepat</h3>
+                <a href="{{ route('about') }}">Tentang Kami</a>
+                <a href="{{ route('schedules') }}">Jadwal Ibadah</a>
+                <a href="{{ route('events') }}">Acara</a>
+                <a href="{{ route('contact') }}">Hubungi Kami</a>
             </div>
             
             <div class="footer-section">
-                <h3>{{ session('locale') == 'en' ? 'Contact' : 'Kontak' }}</h3>
+                <h3>Kontak</h3>
                 @if(isset($churchInfo))
                 <p>📍 {{ $churchInfo->address ?? 'Mojoagung, Jombang' }}</p>
                 <p>📞 {{ $churchInfo->phone ?? '(0321) 123456' }}</p>
@@ -48,7 +46,7 @@
         </div>
         
         <div class="footer-bottom">
-            <p>&copy; {{ date('Y') }} GBIS Mojoagung. {{ session('locale') == 'en' ? 'All rights reserved.' : 'Hak cipta dilindungi.' }}</p>
+            <p>&copy; {{ date('Y') }} GBIS Mojoagung. Hak cipta dilindungi.</p>
         </div>
     </div>
 </footer>

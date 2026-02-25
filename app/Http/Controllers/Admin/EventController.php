@@ -16,11 +16,19 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::orderBy('date', 'desc')
-                      ->paginate(15);
-        
+            ->paginate(15);
+
         return view('admin.events.index', compact('events'));
     }
-    
+
+    /**
+     * Redirect to the public event show page
+     */
+    public function show($id)
+    {
+        return redirect()->route('events.show', $id);
+    }
+
     /**
      * Show the form for creating a new event
      */
@@ -28,7 +36,7 @@ class EventController extends Controller
     {
         return view('admin.events.create');
     }
-    
+
     /**
      * Store a newly created event
      */
@@ -40,15 +48,15 @@ class EventController extends Controller
             'description' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        
+
         if ($validator->fails()) {
             return redirect()->back()
-                           ->withErrors($validator)
-                           ->withInput();
+                ->withErrors($validator)
+                ->withInput();
         }
-        
+
         $data = $request->except('image');
-        
+
         // Handle image upload
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -56,13 +64,13 @@ class EventController extends Controller
             $imagePath = $image->storeAs('events', $imageName, 'public');
             $data['image_url'] = $imagePath;
         }
-        
+
         Event::create($data);
-        
+
         return redirect()->route('admin.events.index')
-                       ->with('success', 'Event created successfully!');
+            ->with('success', 'Event created successfully!');
     }
-    
+
     /**
      * Show the form for editing an event
      */
@@ -71,7 +79,7 @@ class EventController extends Controller
         $event = Event::findOrFail($id);
         return view('admin.events.edit', compact('event'));
     }
-    
+
     /**
      * Update the specified event
      */
@@ -83,50 +91,50 @@ class EventController extends Controller
             'description' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        
+
         if ($validator->fails()) {
             return redirect()->back()
-                           ->withErrors($validator)
-                           ->withInput();
+                ->withErrors($validator)
+                ->withInput();
         }
-        
+
         $event = Event::findOrFail($id);
         $data = $request->except('image');
-        
+
         // Handle image upload
         if ($request->hasFile('image')) {
             // Delete old image
             if ($event->image_url && Storage::disk('public')->exists($event->image_url)) {
                 Storage::disk('public')->delete($event->image_url);
             }
-            
+
             $image = $request->file('image');
             $imageName = time() . '_' . $image->getClientOriginalName();
             $imagePath = $image->storeAs('events', $imageName, 'public');
             $data['image_url'] = $imagePath;
         }
-        
+
         $event->update($data);
-        
+
         return redirect()->route('admin.events.index')
-                       ->with('success', 'Event updated successfully!');
+            ->with('success', 'Event updated successfully!');
     }
-    
+
     /**
      * Remove the specified event
      */
     public function destroy($id)
     {
         $event = Event::findOrFail($id);
-        
+
         // Delete image
         if ($event->image_url && Storage::disk('public')->exists($event->image_url)) {
             Storage::disk('public')->delete($event->image_url);
         }
-        
+
         $event->delete();
-        
+
         return redirect()->route('admin.events.index')
-                       ->with('success', 'Event deleted successfully!');
+            ->with('success', 'Event deleted successfully!');
     }
 }
