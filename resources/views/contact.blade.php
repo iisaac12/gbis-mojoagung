@@ -5,7 +5,6 @@
 @push('styles')
 <style>
     .contact-hero {
-        background: linear-gradient(135deg, #004AAD 0%, #0066CC 100%);
         color: white;
         padding: 6rem 2rem;
         text-align: center;
@@ -15,12 +14,13 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        min-height: 40vh;
+        min-height: 50vh;
+        background: #004AAD;
     }
 
     .contact-hero-content {
         position: relative;
-        z-index: 1;
+        z-index: 10;
     }
 
     .contact-hero h1, .contact-hero p {
@@ -233,12 +233,33 @@
 @endpush
 
 @section('content')
-<!-- Hero Section -->
+<!-- Hero Section with Slider -->
 <section class="contact-hero">
-    <div class="contact-hero-content scroll-animate" id="contact-hero-content">
-        <h1>Hubungi Kami</h1>
-        <p>Kami senang mendengar dari Anda!</p>
+    <div class="hero-slider">
+        @if($heroImages->count() > 0)
+            @foreach($heroImages as $index => $image)
+                <div class="hero-slide {{ $index === 0 ? 'active' : '' }}" 
+                     style="background-image: url('{{ $image->image_url }}');">
+                </div>
+            @endforeach
+        @else
+            <div class="hero-slide active" style="background: linear-gradient(135deg, #004AAD 0%, #0066CC 100%);"></div>
+        @endif
     </div>
+    
+    <div class="hero-overlay"></div>
+
+    <div class="contact-hero-content scroll-animate" id="contact-hero-content">
+        <h1 class="scintillate-text">Hubungi Kami</h1>
+        <p class="scintillate-text">Kami senang mendengar dari Anda!</p>
+    </div>
+
+    @if($heroImages->count() > 1)
+    <div class="hero-nav">
+        <button class="hero-nav-btn prev">❮</button>
+        <button class="hero-nav-btn next">❯</button>
+    </div>
+    @endif
 </section>
 
 <!-- Contact Content -->

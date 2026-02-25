@@ -5,7 +5,6 @@
 @push('styles')
 <style>
     .schedules-hero {
-        background: linear-gradient(135deg, #004AAD 0%, #0066CC 100%);
         color: white;
         padding: 6rem 2rem;
         text-align: center;
@@ -15,12 +14,13 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        min-height: 40vh;
+        min-height: 50vh;
+        background: #004AAD;
     }
 
     .schedules-hero-content {
         position: relative;
-        z-index: 1;
+        z-index: 10;
     }
 
     .schedules-hero h1, .schedules-hero p {
@@ -177,12 +177,33 @@
 @endpush
 
 @section('content')
-<!-- Hero Section -->
+<!-- Hero Section with Slider -->
 <section class="schedules-hero">
-    <div class="schedules-hero-content scroll-animate" id="schedules-hero-content">
-        <h1>Jadwal Ibadah</h1>
-        <p>Bergabunglah bersama kami dalam ibadah dan persekutuan</p>
+    <div class="hero-slider">
+        @if($heroImages->count() > 0)
+            @foreach($heroImages as $index => $image)
+                <div class="hero-slide {{ $index === 0 ? 'active' : '' }}" 
+                     style="background-image: url('{{ $image->image_url }}');">
+                </div>
+            @endforeach
+        @else
+            <div class="hero-slide active" style="background: linear-gradient(135deg, #004AAD 0%, #0066CC 100%);"></div>
+        @endif
     </div>
+    
+    <div class="hero-overlay"></div>
+
+    <div class="schedules-hero-content scroll-animate" id="schedules-hero-content">
+        <h1 class="scintillate-text">Jadwal Ibadah</h1>
+        <p class="scintillate-text">Bergabunglah bersama kami dalam ibadah dan persekutuan</p>
+    </div>
+
+    @if($heroImages->count() > 1)
+    <div class="hero-nav">
+        <button class="hero-nav-btn prev">❮</button>
+        <button class="hero-nav-btn next">❯</button>
+    </div>
+    @endif
 </section>
 
 <!-- Filters -->

@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
+use App\Http\Controllers\Admin\HeroImageController as AdminHeroImageController;
 
 // Public Routes
 Route::get('/', [HomeController::class , 'index'])->name('home');
@@ -48,5 +49,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         'edit' => 'admin.events.edit',
         'update' => 'admin.events.update',
         'destroy' => 'admin.events.destroy',
+    ]);
+
+    // Hero Management
+    Route::resource('heroes', AdminHeroImageController::class)->except(['show', 'edit', 'update'])->names([
+        'index' => 'admin.heroes.index',
+        'create' => 'admin.heroes.create',
+        'store' => 'admin.heroes.store',
+        'destroy' => 'admin.heroes.destroy',
     ]);
 });

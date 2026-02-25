@@ -5,7 +5,6 @@
 @push('styles')
 <style>
     .hero {
-        background: linear-gradient(135deg, #004AAD 0%, #0066CC 100%);
         color: white;
         padding: 6rem 2rem;
         text-align: center;
@@ -14,7 +13,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        min-height: 60vh;
+        min-height: 70vh; /* Slightly taller for more impact */
+        background: #004AAD; /* Fallback color */
     }
     
     .hero::before {
@@ -38,7 +38,7 @@
         max-width: 900px;
         margin: 0 auto;
         position: relative;
-        z-index: 1;
+        z-index: 10; /* Above overlay and slider */
     }
 
     .hero h1, .hero p, .hero .cta-button {
@@ -235,15 +235,36 @@
 @endpush
 
 @section('content')
-<!-- Hero Section -->
+<!-- Hero Section with Slider -->
 <section class="hero">
+    <div class="hero-slider">
+        @if($heroImages->count() > 0)
+            @foreach($heroImages as $index => $image)
+                <div class="hero-slide {{ $index === 0 ? 'active' : '' }}" 
+                     style="background-image: url('{{ $image->image_url }}');">
+                </div>
+            @endforeach
+        @else
+            <div class="hero-slide active" style="background: linear-gradient(135deg, #004AAD 0%, #0066CC 100%);"></div>
+        @endif
+    </div>
+    
+    <div class="hero-overlay"></div>
+
     <div class="hero-content scroll-animate" id="hero-content">
-        <h1>Selamat Datang di GBIS Mojoagung</h1>
-        <p>Gereja yang menyebarkan kasih Kristus</p>
+        <h1 class="scintillate-text">Selamat Datang di GBIS Mojoagung</h1>
+        <p class="scintillate-text">Gereja yang menyebarkan kasih Kristus</p>
         <a href="{{ route('schedules') }}" class="cta-button">
             Bergabunglah dalam Ibadah
         </a>
     </div>
+
+    @if($heroImages->count() > 1)
+    <div class="hero-nav">
+        <button class="hero-nav-btn prev">❮</button>
+        <button class="hero-nav-btn next">❯</button>
+    </div>
+    @endif
 </section>
 
 <!-- Vision & Mission -->

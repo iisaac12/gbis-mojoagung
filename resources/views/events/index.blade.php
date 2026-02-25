@@ -5,7 +5,6 @@
 @push('styles')
 <style>
     .events-hero {
-        background: linear-gradient(135deg, #C62828 0%, #E53935 100%);
         color: white;
         padding: 6rem 2rem;
         text-align: center;
@@ -15,12 +14,13 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        min-height: 40vh;
+        min-height: 50vh;
+        background: #C62828;
     }
 
     .events-hero-content {
         position: relative;
-        z-index: 1;
+        z-index: 10;
     }
 
     .events-hero h1, .events-hero p {
@@ -104,11 +104,33 @@
 @endpush
 
 @section('content')
+<!-- Hero Section with Slider -->
 <section class="events-hero">
-    <div class="events-hero-content scroll-animate" id="events-hero-content">
-        <h1>Acara Gereja</h1>
-        <p>Acara dan kegiatan khusus</p>
+    <div class="hero-slider">
+        @if($heroImages->count() > 0)
+            @foreach($heroImages as $index => $image)
+                <div class="hero-slide {{ $index === 0 ? 'active' : '' }}" 
+                     style="background-image: url('{{ $image->image_url }}');">
+                </div>
+            @endforeach
+        @else
+            <div class="hero-slide active" style="background: linear-gradient(135deg, #C62828 0%, #E53935 100%);"></div>
+        @endif
     </div>
+    
+    <div class="hero-overlay" style="background: linear-gradient(135deg, rgba(198, 40, 40, 0.8) 0%, rgba(0, 0, 0, 0.4) 100%);"></div>
+
+    <div class="events-hero-content scroll-animate" id="events-hero-content">
+        <h1 class="scintillate-text">Acara & Kegiatan</h1>
+        <p class="scintillate-text">Ikuti berbagai kegiatan seru di GBIS Mojoagung</p>
+    </div>
+
+    @if($heroImages->count() > 1)
+    <div class="hero-nav">
+        <button class="hero-nav-btn prev">❮</button>
+        <button class="hero-nav-btn next">❯</button>
+    </div>
+    @endif
 </section>
 
 <div class="events-grid">

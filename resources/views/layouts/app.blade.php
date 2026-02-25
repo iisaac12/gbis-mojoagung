@@ -302,6 +302,98 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* Hero Slider */
+        .hero-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.2s ease-in-out;
+            z-index: 0;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+            z-index: 1;
+        }
+
+        .hero-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 2rem;
+            transform: translateY(-50%);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .hero-nav-btn {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(12px);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            pointer-events: auto;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .hero-nav-btn:hover {
+            background: white;
+            color: var(--primary-blue);
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 74, 173, 0.75) 0%, rgba(198, 40, 40, 0.35) 100%);
+            z-index: 2;
+        }
+
+        /* Scintillating (Glowing) Text Effect */
+        .scintillate-text {
+            animation: scintillate 4s ease-in-out infinite;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3), 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes scintillate {
+            0%, 100% {
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.3), 0 0 20px rgba(255, 255, 255, 0.2);
+                filter: brightness(1);
+            }
+            50% {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.6), 0 0 35px rgba(255, 255, 255, 0.4), 0 0 50px rgba(255, 215, 0, 0.3);
+                filter: brightness(1.2);
+            }
+        }
     </style>
     
     @stack('styles')
@@ -382,11 +474,45 @@
 
             observeReveals();
 
-            // Re-observe on dynamic content changes if any
-            const observer = new MutationObserver((mutations) => {
-                observeReveals();
-            });
-            observer.observe(document.body, { childList: true, subtree: true });
+
+            // Hero Slider Logic
+            const initSlider = () => {
+                const slides = document.querySelectorAll('.hero-slide');
+                const prevBtn = document.querySelector('.hero-nav-btn.prev');
+                const nextBtn = document.querySelector('.hero-nav-btn.next');
+                let currentSlide = 0;
+
+                if (slides.length > 1) {
+                    const showSlide = (n) => {
+                        slides[currentSlide].classList.remove('active');
+                        currentSlide = (n + slides.length) % slides.length;
+                        slides[currentSlide].classList.add('active');
+                    };
+
+                    if (prevBtn) {
+                        prevBtn.style.display = 'flex';
+                        prevBtn.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            showSlide(currentSlide - 1);
+                        });
+                    }
+                    if (nextBtn) {
+                        nextBtn.style.display = 'flex';
+                        nextBtn.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            showSlide(currentSlide + 1);
+                        });
+                    }
+
+                    // Auto-play
+                    setInterval(() => showSlide(currentSlide + 1), 7000);
+                } else if (slides.length === 1) {
+                    if (prevBtn) prevBtn.style.display = 'none';
+                    if (nextBtn) nextBtn.style.display = 'none';
+                }
+            };
+
+            initSlider();
         });
     </script>
     

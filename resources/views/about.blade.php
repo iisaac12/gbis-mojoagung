@@ -5,7 +5,6 @@
 @push('styles')
 <style>
     .about-hero {
-        background: linear-gradient(135deg, #004AAD 0%, #0066CC 100%);
         color: white;
         padding: 6rem 2rem;
         text-align: center;
@@ -15,12 +14,13 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        min-height: 40vh;
+        min-height: 50vh;
+        background: #004AAD;
     }
 
     .about-hero-content {
         position: relative;
-        z-index: 1;
+        z-index: 10;
     }
 
     .about-hero h1, .about-hero p {
@@ -192,12 +192,33 @@
 @endpush
 
 @section('content')
-<!-- Hero Section -->
+<!-- Hero Section with Slider -->
 <section class="about-hero">
-    <div class="about-hero-content scroll-animate" id="about-hero-content">
-        <h1>Tentang Kami</h1>
-        <p>Mengenal lebih dekat GBIS Mojoagung</p>
+    <div class="hero-slider">
+        @if($heroImages->count() > 0)
+            @foreach($heroImages as $index => $image)
+                <div class="hero-slide {{ $index === 0 ? 'active' : '' }}" 
+                     style="background-image: url('{{ $image->image_url }}');">
+                </div>
+            @endforeach
+        @else
+            <div class="hero-slide active" style="background: linear-gradient(135deg, #004AAD 0%, #0066CC 100%);"></div>
+        @endif
     </div>
+    
+    <div class="hero-overlay"></div>
+
+    <div class="about-hero-content scroll-animate" id="about-hero-content">
+        <h1 class="scintillate-text">Tentang Kami</h1>
+        <p class="scintillate-text">Mengenal lebih dekat GBIS Mojoagung</p>
+    </div>
+
+    @if($heroImages->count() > 1)
+    <div class="hero-nav">
+        <button class="hero-nav-btn prev">❮</button>
+        <button class="hero-nav-btn next">❯</button>
+    </div>
+    @endif
 </section>
 
 <!-- Church Description -->
