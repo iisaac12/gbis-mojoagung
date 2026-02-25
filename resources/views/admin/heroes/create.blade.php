@@ -5,7 +5,7 @@
 @section('content')
 <div style="max-width: 800px; margin: 0 auto; padding: 3rem 2rem;">
     <div style="margin-bottom: 2rem;">
-        <a href="{{ route('admin.heroes.index') }}" style="color: var(--primary-blue); text-decoration: none;">← Kembali</a>
+        <a href="{{ route('admin.heroes.index') }}" style="color: var(--primary-blue); text-decoration: none;">Kembali</a>
         <h1 style="color: var(--primary-blue); margin-top: 1rem;">Tambah Foto Hero</h1>
     </div>
 

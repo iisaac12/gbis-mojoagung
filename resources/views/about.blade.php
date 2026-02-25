@@ -160,6 +160,7 @@
     @media (max-width: 768px) {
         .about-hero {
             padding: 4rem 1.5rem;
+            min-height: 40vh;
         }
 
         .about-hero h1 {

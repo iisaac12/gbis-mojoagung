@@ -100,6 +100,21 @@
         margin-bottom: 0.75rem;
         font-weight: 600;
     }
+    @media (max-width: 768px) {
+        .events-hero {
+            padding: 4rem 1.5rem;
+            min-height: 40vh;
+        }
+
+        .events-hero h1 {
+            font-size: 2.25rem;
+        }
+
+        .events-grid {
+            padding: 1.5rem;
+            grid-template-columns: 1fr;
+        }
+    }
 </style>
 @endpush
 

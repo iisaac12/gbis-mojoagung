@@ -35,11 +35,11 @@
                 <h3>Kontak</h3>
                 @if(isset($churchInfo))
                 <p>📍 {{ $churchInfo->address ?? 'Mojoagung, Jombang' }}</p>
-                <p>📞 {{ $churchInfo->phone ?? '(0321) 123456' }}</p>
+                <p>💬 <a href="{{ $churchInfo->whatsapp_link ?? 'https://wa.me/6281234567890' }}" target="_blank" style="color: inherit; text-decoration: none;">WhatsApp</a></p>
                 <p>✉️ {{ $churchInfo->email ?? 'info@gbismojoagung.org' }}</p>
                 @else
                 <p>📍 Mojoagung, Jombang</p>
-                <p>📞 (0321) 123456</p>
+                <p>💬 <a href="https://wa.me/6281234567890" target="_blank" style="color: inherit; text-decoration: none;">WhatsApp</a></p>
                 <p>✉️ info@gbismojoagung.org</p>
                 @endif
             </div>

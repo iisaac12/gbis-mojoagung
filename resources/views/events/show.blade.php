@@ -3,7 +3,7 @@
 @section('title', $event->title . ' - GBIS Mojoagung')
 
 @section('content')
-<div style="max-width: 1200px; margin: 0 auto; padding: 3rem 2rem;">
+<div class="event-detail-container" style="max-width: 1200px; margin: 0 auto; padding: 3rem 2rem;">
     <div class="reveal">
         <a href="{{ route('events') }}" style="color: var(--primary-blue); text-decoration: none; margin-bottom: 2rem; display: inline-block; transition: transform 0.3s ease;">
             ← Kembali ke Acara
@@ -58,6 +58,18 @@
 </div>
 
 <style>
+    @media (max-width: 768px) {
+        .event-detail-container {
+            padding: 2rem 1.5rem !important;
+        }
+        .event-detail-container h1 {
+            font-size: 1.8rem !important;
+        }
+        .related-event-card {
+            padding: 1rem !important;
+        }
+    }
+
     .related-event-card:hover {
         transform: translateY(-8px);
         box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;

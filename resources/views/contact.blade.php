@@ -206,6 +206,7 @@
     @media (max-width: 768px) {
         .contact-hero {
             padding: 4rem 1.5rem;
+            min-height: 40vh;
         }
 
         .contact-hero h1 {
@@ -277,15 +278,6 @@
                 </div>
             </div>
             
-            <div class="info-item">
-                <span class="info-icon">📞</span>
-                <div class="info-content">
-                    <h3>Telepon</h3>
-                    <a href="tel:{{ $churchInfo->phone ?? '(0321) 123456' }}">
-                        {{ $churchInfo->phone ?? '(0321) 123456' }}
-                    </a>
-                </div>
-            </div>
             
             <div class="info-item">
                 <span class="info-icon">✉️</span>

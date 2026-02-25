@@ -269,6 +269,10 @@
             .footer-content {
                 grid-template-columns: 1fr;
             }
+
+            .footer {
+                padding: 2rem 1.5rem 1rem;
+            }
         }
 
         .navbar-overlay {

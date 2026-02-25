@@ -161,16 +161,44 @@
     }
     
     @media (max-width: 768px) {
+        .schedules-hero {
+            padding: 4rem 1.5rem;
+            min-height: 40vh;
+        }
+
         .schedules-hero h1 {
-            font-size: 2rem;
+            font-size: 2.25rem;
         }
         
+        .filters {
+            padding: 1.25rem;
+            margin: -1.5rem 1rem 1.5rem;
+        }
+
         .filter-row {
             flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .filter-group {
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .filter-btn {
+            width: 100%;
+            text-align: center;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
         }
         
         .schedule-grid {
             grid-template-columns: 1fr;
+            padding: 0;
+        }
+
+        .section {
+            padding: 1.5rem;
         }
     }
 </style>
