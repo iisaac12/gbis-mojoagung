@@ -7,17 +7,19 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Admin\HeroImageController as AdminHeroImageController;
+use App\Http\Controllers\Admin\ContactController as AdminContactController;
 
 // Public Routes
 Route::get('/', [HomeController::class , 'index'])->name('home');
 Route::get('/about', [AboutController::class , 'index'])->name('about');
 Route::get('/schedules', [ScheduleController::class , 'index'])->name('schedules');
 Route::get('/events', [EventController::class , 'index'])->name('events');
-Route::get('/events/{id}', [EventController::class , 'show'])->name('events.show');
+Route::get('/events/{slug}', [EventController::class , 'show'])->name('events.show');
 Route::get('/contact', [ContactController::class , 'index'])->name('contact');
 Route::post('/contact', [ContactController::class , 'store'])->name('contact.store');
 
@@ -25,6 +27,10 @@ Route::post('/contact', [ContactController::class , 'store'])->name('contact.sto
 Route::get('/login', [LoginController::class , 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class , 'login']);
 Route::post('/logout', [LoginController::class , 'logout'])->name('logout');
+
+// Registration Routes
+Route::get('/register', [RegisterController::class , 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class , 'register']);
 
 // Admin Routes (Protected)
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
@@ -58,4 +64,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         'store' => 'admin.heroes.store',
         'destroy' => 'admin.heroes.destroy',
     ]);
+
+    // Contact Messages
+    Route::get('/contacts', [AdminContactController::class , 'index'])->name('admin.contacts.index');
+    Route::get('/contacts/{id}', [AdminContactController::class , 'show'])->name('admin.contacts.show');
+    Route::delete('/contacts/{id}', [AdminContactController::class , 'destroy'])->name('admin.contacts.destroy');
 });

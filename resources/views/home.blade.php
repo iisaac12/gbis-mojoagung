@@ -331,7 +331,7 @@
                 📅 {{ \Carbon\Carbon::parse($event->date)->isoFormat('dddd, D MMMM Y') }}
             </p>
             <p>{{ Str::limit($event->description, 100) }}</p>
-            <a href="{{ route('events.show', $event->id) }}" style="color: var(--primary-blue); font-weight: 600; text-decoration: none;">
+            <a href="{{ route('events.show', $event->slug) }}" style="color: var(--primary-blue); font-weight: 600; text-decoration: none;">
                 Selengkapnya
             </a>
         </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Service;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Cache;
 
 class ServiceController extends Controller
 {
@@ -51,6 +52,8 @@ class ServiceController extends Controller
 
         Service::create($request->all());
 
+        Cache::forget('home_page_data');
+
         return redirect()->route('admin.services.index')
             ->with('success', 'Service created successfully!');
     }
@@ -87,6 +90,8 @@ class ServiceController extends Controller
         $service = Service::findOrFail($id);
         $service->update($request->all());
 
+        Cache::forget('home_page_data');
+
         return redirect()->route('admin.services.index')
             ->with('success', 'Service updated successfully!');
     }
@@ -98,6 +103,8 @@ class ServiceController extends Controller
     {
         $service = Service::findOrFail($id);
         $service->delete();
+
+        Cache::forget('home_page_data');
 
         return redirect()->route('admin.services.index')
             ->with('success', 'Service deleted successfully!');

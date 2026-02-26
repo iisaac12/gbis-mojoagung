@@ -285,7 +285,10 @@
 
 <!-- Recent Contacts -->
 <div class="recent-section">
-    <h2>Recent Contact Messages</h2>
+    <h2>
+        Recent Contact Messages
+        <a href="{{ route('admin.contacts.index') }}" class="view-all">View All</a>
+    </h2>
     
     <div class="table-container">
         <table>
@@ -296,6 +299,7 @@
                     <th>Type</th>
                     <th>Date</th>
                     <th>Message</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -309,7 +313,10 @@
                         </span>
                     </td>
                     <td>{{ $contact->created_at->format('d M Y') }}</td>
-                    <td>{{ Str::limit($contact->message, 50) }}</td>
+                    <td>{{ Str::limit($contact->message, 40) }}</td>
+                    <td>
+                        <a href="{{ route('admin.contacts.show', $contact->id) }}" style="color: var(--primary-blue); font-weight: 600; text-decoration: none;">View</a>
+                    </td>
                 </tr>
                 @empty
                 <tr>

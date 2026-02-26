@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Login - GBIS Mojoagung')
+@section('title', 'Daftar Akun - GBIS Mojoagung')
 
 @push('styles')
 <style>
-    .login-container {
+    .register-container {
         min-height: 80vh;
         display: flex;
         align-items: center;
@@ -13,27 +13,27 @@
         background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
     }
     
-    .login-box {
+    .register-box {
         background: white;
         padding: 3rem;
         border-radius: 20px;
         box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-        max-width: 450px;
+        max-width: 500px;
         width: 100%;
     }
     
-    .login-header {
+    .register-header {
         text-align: center;
         margin-bottom: 2rem;
     }
     
-    .login-header h1 {
+    .register-header h1 {
         color: var(--primary-blue);
         font-size: 2rem;
         margin-bottom: 0.5rem;
     }
     
-    .login-header p {
+    .register-header p {
         color: #666;
     }
     
@@ -62,7 +62,7 @@
         border-color: var(--primary-blue);
     }
     
-    .btn-login {
+    .btn-register {
         width: 100%;
         padding: 1rem;
         background: var(--primary-blue);
@@ -75,26 +75,26 @@
         transition: all 0.3s;
     }
     
-    .btn-login:hover {
+    .btn-register:hover {
         background: #003a8c;
         transform: translateY(-2px);
         box-shadow: 0 5px 15px rgba(0, 74, 173, 0.3);
     }
     
-    .guest-link {
+    .login-link {
         text-align: center;
         margin-top: 1.5rem;
         padding-top: 1.5rem;
         border-top: 1px solid #e0e0e0;
     }
     
-    .guest-link a {
+    .login-link a {
         color: var(--primary-blue);
         text-decoration: none;
         font-weight: 500;
     }
     
-    .guest-link a:hover {
+    .login-link a:hover {
         text-decoration: underline;
     }
     
@@ -111,11 +111,11 @@
     }
     
     @media (max-width: 768px) {
-        .login-box {
+        .register-box {
             padding: 2rem;
         }
         
-        .login-header h1 {
+        .register-header h1 {
             font-size: 1.5rem;
         }
     }
@@ -123,11 +123,11 @@
 @endpush
 
 @section('content')
-<div class="login-container">
-    <div class="login-box">
-        <div class="login-header">
-            <h1>Masuk</h1>
-            <p>Selamat datang kembali! Silakan masuk ke akun Anda</p>
+<div class="register-container">
+    <div class="register-box">
+        <div class="register-header">
+            <h1>Daftar Akun</h1>
+            <p>Buat akun baru untuk mulai berinteraksi</p>
         </div>
         
         @if($errors->any())
@@ -138,19 +138,31 @@
         </div>
         @endif
         
-        <form method="POST" action="{{ route('login') }}">
+        <form method="POST" action="{{ route('register') }}">
             @csrf
             
             <div class="form-group">
-                <label for="email">Email atau Username</label>
+                <label for="username">Username</label>
                 <input 
                     type="text" 
+                    id="username" 
+                    name="username" 
+                    value="{{ old('username') }}"
+                    placeholder="Masukkan username"
+                    required
+                    autofocus
+                >
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input 
+                    type="email" 
                     id="email" 
                     name="email" 
                     value="{{ old('email') }}"
-                    placeholder="Masukkan email atau username"
+                    placeholder="Masukkan alamat email"
                     required
-                    autofocus
                 >
             </div>
             
@@ -160,22 +172,29 @@
                     type="password" 
                     id="password" 
                     name="password" 
-                    placeholder="Masukkan kata sandi"
+                    placeholder="Masukkan kata sandi (min. 8 karakter)"
                     required
                 >
             </div>
             
-            <button type="submit" class="btn-login">
-                Masuk
+            <div class="form-group">
+                <label for="password_confirmation">Konfirmasi Kata Sandi</label>
+                <input 
+                    type="password" 
+                    id="password_confirmation" 
+                    name="password_confirmation" 
+                    placeholder="Ulangi kata sandi"
+                    required
+                >
+            </div>
+            
+            <button type="submit" class="btn-register">
+                Daftar Sekarang
             </button>
         </form>
         
-        <div class="guest-link">
-            <p>Belum punya akun? <a href="{{ route('register') }}">Daftar di sini</a></p>
-            <p style="margin-top: 1rem;">atau</p>
-            <a href="{{ route('home') }}">
-                Lanjutkan sebagai Tamu
-            </a>
+        <div class="login-link">
+            <p>Sudah punya akun? <a href="{{ route('login') }}">Masuk di sini</a></p>
         </div>
     </div>
 </div>

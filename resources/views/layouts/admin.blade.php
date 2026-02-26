@@ -260,6 +260,11 @@
                         Heroes
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('admin.contacts.index') }}" class="{{ request()->routeIs('admin.contacts.*') ? 'active' : '' }}">
+                        Contacts
+                    </a>
+                </li>
                 <li style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1);">
                     <a href="{{ route('home') }}">
                         View Website

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Models\HeroImage;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
 
 class HeroImageController extends Controller
 {
@@ -37,6 +38,8 @@ class HeroImageController extends Controller
             'sort_order' => $request->sort_order ?? 0
         ]);
 
+        Cache::forget('home_page_data');
+
         return redirect()->route('admin.heroes.index')->with('success', 'Foto Hero berhasil ditambahkan!');
     }
 
@@ -44,6 +47,8 @@ class HeroImageController extends Controller
     {
         Storage::disk('public')->delete($hero->image_path);
         $hero->delete();
+
+        Cache::forget('home_page_data');
 
         return redirect()->route('admin.heroes.index')->with('success', 'Foto Hero berhasil dihapus!');
     }

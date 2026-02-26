@@ -150,7 +150,7 @@
 
 <div class="events-grid">
     @forelse($events as $index => $event)
-    <a href="{{ route('events.show', $event->id) }}" class="event-card reveal" style="transition-delay: {{ $index * 0.1 }}s;">
+    <a href="{{ route('events.show', $event->slug) }}" class="event-card reveal" style="transition-delay: {{ $index * 0.1 }}s;">
         @if($event->image_url)
         <img src="{{ asset('storage/' . $event->image_url) }}" alt="{{ $event->title }}" class="event-image">
         @else

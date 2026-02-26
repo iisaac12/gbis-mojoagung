@@ -95,7 +95,7 @@
             <p style="color: #666; font-size: 0.9rem;">{{ Str::limit($event->description, 80) }}</p>
             
             <div class="event-actions">
-                <a href="{{ route('events.show', $event->id) }}" class="btn btn-sm" style="background: #4caf50; color: white;">View</a>
+                <a href="{{ route('events.show', $event->slug) }}" class="btn btn-sm" style="background: #4caf50; color: white;">View</a>
                 <a href="{{ route('admin.events.edit', $event->id) }}" class="btn btn-sm" style="background: #2196f3; color: white;">Edit</a>
                 <form action="{{ route('admin.events.destroy', $event->id) }}" method="POST" onsubmit="return confirm('Delete this event?')">
                     @csrf

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Event;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
 
 class EventController extends Controller
 {
@@ -26,7 +27,8 @@ class EventController extends Controller
      */
     public function show($id)
     {
-        return redirect()->route('events.show', $id);
+        $event = Event::findOrFail($id);
+        return redirect()->route('events.show', $event->slug);
     }
 
     /**
@@ -66,6 +68,8 @@ class EventController extends Controller
         }
 
         Event::create($data);
+
+        Cache::forget('home_page_data');
 
         return redirect()->route('admin.events.index')
             ->with('success', 'Event created successfully!');
@@ -114,7 +118,12 @@ class EventController extends Controller
             $data['image_url'] = $imagePath;
         }
 
+        $oldSlug = $event->slug;
         $event->update($data);
+
+        Cache::forget('home_page_data');
+        Cache::forget("event_show_{$oldSlug}");
+        Cache::forget("event_show_{$event->slug}");
 
         return redirect()->route('admin.events.index')
             ->with('success', 'Event updated successfully!');
@@ -132,7 +141,11 @@ class EventController extends Controller
             Storage::disk('public')->delete($event->image_url);
         }
 
+        $slug = $event->slug;
         $event->delete();
+
+        Cache::forget('home_page_data');
+        Cache::forget("event_show_{$slug}");
 
         return redirect()->route('admin.events.index')
             ->with('success', 'Event deleted successfully!');

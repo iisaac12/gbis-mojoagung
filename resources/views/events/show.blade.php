@@ -6,7 +6,7 @@
 <div class="event-detail-container" style="max-width: 1200px; margin: 0 auto; padding: 3rem 2rem;">
     <div class="reveal">
         <a href="{{ route('events') }}" style="color: var(--primary-blue); text-decoration: none; margin-bottom: 2rem; display: inline-block; transition: transform 0.3s ease;">
-            ← Kembali ke Acara
+            Kembali ke Acara
         </a>
     </div>
     
@@ -18,7 +18,7 @@
     
     <div class="reveal" style="transition-delay: 0.2s;">
         <span style="display: inline-block; background: var(--primary-red); color: white; padding: 0.5rem 1.5rem; border-radius: 25px; font-weight: 600; margin-bottom: 1.5rem;">
-            📅 {{ \Carbon\Carbon::parse($event->date)->isoFormat('dddd, D MMMM Y') }}
+            {{ \Carbon\Carbon::parse($event->date)->isoFormat('dddd, D MMMM Y') }}
         </span>
     </div>
     
@@ -42,7 +42,7 @@
         
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
             @foreach($relatedEvents as $index => $related)
-            <a href="{{ route('events.show', $related->id) }}" 
+            <a href="{{ route('events.show', $related->slug) }}" 
                class="related-event-card reveal" 
                style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); text-decoration: none; color: inherit; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); border: 1px solid rgba(0,0,0,0.03); display: block; transition-delay: {{ ($index + 1) * 0.1 }}s;">
                 <h4 style="color: var(--primary-blue); margin-bottom: 0.5rem; transition: color 0.3s;">{{ $related->title }}</h4>

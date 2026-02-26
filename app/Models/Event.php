@@ -11,10 +11,28 @@ class Event extends Model
 
     protected $fillable = [
         'title',
+        'slug',
         'date',
         'description',
         'image_url'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($event) {
+            if (empty($event->slug)) {
+                $event->slug = \Illuminate\Support\Str::slug($event->title);
+            }
+        });
+
+        static::updating(function ($event) {
+            if ($event->isDirty('title') && empty($event->slug)) {
+                $event->slug = \Illuminate\Support\Str::slug($event->title);
+            }
+        });
+    }
 
     protected $casts = [
         'date' => 'date',
