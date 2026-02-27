@@ -10,6 +10,9 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         * {
             margin: 0;
@@ -242,39 +245,39 @@
             <ul class="sidebar-menu">
                 <li>
                     <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                        Dashboard
+                        <i class="fa-solid fa-chart-line"></i> Dashboard
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('admin.services.index') }}" class="{{ request()->routeIs('admin.services.*') ? 'active' : '' }}">
-                        Services
+                        <i class="fa-solid fa-church"></i> Services
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('admin.events.index') }}" class="{{ request()->routeIs('admin.events.*') ? 'active' : '' }}">
-                        Events
+                        <i class="fa-solid fa-calendar-check"></i> Events
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('admin.heroes.index') }}" class="{{ request()->routeIs('admin.heroes.*') ? 'active' : '' }}">
-                        Heroes
+                        <i class="fa-solid fa-image"></i> Heroes
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('admin.contacts.index') }}" class="{{ request()->routeIs('admin.contacts.*') ? 'active' : '' }}">
-                        Contacts
+                        <i class="fa-solid fa-envelope"></i> Contacts
                     </a>
                 </li>
                 <li style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1);">
                     <a href="{{ route('home') }}">
-                        View Website
+                        <i class="fa-solid fa-earth-asia"></i> View Website
                     </a>
                 </li>
                 <li>
                     <form action="{{ route('logout') }}" method="POST" style="padding: 0 1.5rem;">
                         @csrf
                         <button type="submit" style="background: none; border: none; color: white; cursor: pointer; padding: 0.875rem 0; width: 100%; text-align: left; display: flex; align-items: center; gap: 0.75rem; font: inherit;">
-                            Logout
+                            <i class="fa-solid fa-right-from-bracket"></i> Logout
                         </button>
                     </form>
                 </li>
@@ -287,6 +290,7 @@
                 ☰
             </button>
             
+            @include('components.delete-confirm-modal')
             @yield('content')
         </main>
     </div>

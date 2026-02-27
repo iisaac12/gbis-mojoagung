@@ -216,8 +216,8 @@
 
     @if($heroImages->count() > 1)
     <div class="hero-nav">
-        <button class="hero-nav-btn prev">❮</button>
-        <button class="hero-nav-btn next">❯</button>
+        <button class="hero-nav-btn prev"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="hero-nav-btn next"><i class="fa-solid fa-chevron-right"></i></button>
     </div>
     @endif
 </section>

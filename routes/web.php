@@ -68,5 +68,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     // Contact Messages
     Route::get('/contacts', [AdminContactController::class , 'index'])->name('admin.contacts.index');
     Route::get('/contacts/{id}', [AdminContactController::class , 'show'])->name('admin.contacts.show');
+    Route::post('/contacts/{id}/reply', [AdminContactController::class , 'reply'])->name('admin.contacts.reply');
     Route::delete('/contacts/{id}', [AdminContactController::class , 'destroy'])->name('admin.contacts.destroy');
 });

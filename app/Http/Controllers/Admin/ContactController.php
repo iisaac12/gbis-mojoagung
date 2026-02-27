@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactReplyMail;
+use Carbon\Carbon;
 
 class ContactController extends Controller
 {
@@ -36,5 +39,28 @@ class ContactController extends Controller
 
         return redirect()->route('admin.contacts.index')
             ->with('success', 'Message deleted successfully!');
+    }
+
+    /**
+     * Reply to the contact message.
+     */
+    public function reply(Request $request, $id)
+    {
+        $contact = Contact::findOrFail($id);
+
+        $request->validate([
+            'reply_message' => 'required|string',
+        ]);
+
+        // Send Email
+        Mail::to($contact->email)->send(new ContactReplyMail($contact, $request->reply_message));
+
+        // Save to Database
+        $contact->update([
+            'reply_message' => $request->reply_message,
+            'replied_at' => Carbon::now(),
+        ]);
+
+        return redirect()->back()->with('success', 'Balasan berhasil dikirim ke ' . $contact->email);
     }
 }

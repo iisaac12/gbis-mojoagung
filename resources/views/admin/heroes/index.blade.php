@@ -37,10 +37,10 @@
                         <td style="padding: 1.5rem; text-transform: capitalize;">{{ $image->page_name }}</td>
                         <td style="padding: 1.5rem;">{{ $image->sort_order }}</td>
                         <td style="padding: 1.5rem;">
-                            <form action="{{ route('admin.heroes.destroy', $image->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus foto ini?')">
+                            <form id="deleteHeroForm-{{ $image->id }}" action="{{ route('admin.heroes.destroy', $image->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" style="background: #ffebee; color: #c62828; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; font-weight: 600;">
+                                <button type="button" onclick="showDeleteModal('deleteHeroForm-{{ $image->id }}', 'Hapus foto hero ini?')" style="background: #ffebee; color: #c62828; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; font-weight: 600;">
                                     Hapus
                                 </button>
                             </form>

@@ -173,28 +173,28 @@
 <!-- Statistics -->
 <div class="stats-grid">
     <div class="stat-card">
-        <div class="stat-icon">📅</div>
+        <div class="stat-icon"><i class="fa-solid fa-church" style="color: var(--primary-blue);"></i></div>
         <div class="stat-value">{{ $stats['total_services'] }}</div>
         <div class="stat-label">Total Services</div>
         <small style="color: green;">{{ $stats['upcoming_services'] }} upcoming</small>
     </div>
     
     <div class="stat-card">
-        <div class="stat-icon">🎉</div>
+        <div class="stat-icon"><i class="fa-solid fa-calendar-check" style="color: var(--primary-red);"></i></div>
         <div class="stat-value">{{ $stats['total_events'] }}</div>
         <div class="stat-label">Total Events</div>
         <small style="color: green;">{{ $stats['upcoming_events'] }} upcoming</small>
     </div>
     
     <div class="stat-card">
-        <div class="stat-icon">✉️</div>
+        <div class="stat-icon"><i class="fa-solid fa-envelope-open-text" style="color: #f39c12;"></i></div>
         <div class="stat-value">{{ $stats['total_contacts'] }}</div>
         <div class="stat-label">Contact Messages</div>
         <small style="color: orange;">{{ $stats['unread_contacts'] }} from guests</small>
     </div>
     
     <div class="stat-card">
-        <div class="stat-icon">👥</div>
+        <div class="stat-icon"><i class="fa-solid fa-users" style="color: #27ae60;"></i></div>
         <div class="stat-value">{{ $stats['total_members'] }}</div>
         <div class="stat-label">Members</div>
         <small style="color: #666;">{{ $stats['total_admins'] }} admins</small>
@@ -204,7 +204,7 @@
 <!-- Recent Services -->
 <div class="recent-section">
     <h2>
-        Recent Services
+        <span><i class="fa-solid fa-church" style="color: var(--primary-blue); margin-right: 0.5rem;"></i> Recent Services</span>
         <a href="{{ route('admin.services.index') }}" class="view-all">View All</a>
     </h2>
     
@@ -245,7 +245,7 @@
 <!-- Recent Events -->
 <div class="recent-section">
     <h2>
-        Recent Events
+        <span><i class="fa-solid fa-calendar-check" style="color: var(--primary-red); margin-right: 0.5rem;"></i> Recent Events</span>
         <a href="{{ route('admin.events.index') }}" class="view-all">View All</a>
     </h2>
     
@@ -286,7 +286,7 @@
 <!-- Recent Contacts -->
 <div class="recent-section">
     <h2>
-        Recent Contact Messages
+        <span><i class="fa-solid fa-envelope-open-text" style="color: #f39c12; margin-right: 0.5rem;"></i> Recent Contact Messages</span>
         <a href="{{ route('admin.contacts.index') }}" class="view-all">View All</a>
     </h2>
     

@@ -271,7 +271,7 @@
             <h2>Informasi Kontak</h2>
             
             <div class="info-item">
-                <span class="info-icon">📍</span>
+                <span class="info-icon"><i class="fa-solid fa-location-dot" style="color: var(--primary-blue);"></i></span>
                 <div class="info-content">
                     <h3>Alamat</h3>
                     <p>{{ $churchInfo->address ?? 'Jl. Raya Mojoagung No. 123, Mojoagung, Jombang, Jawa Timur 61482' }}</p>
@@ -280,7 +280,7 @@
             
             
             <div class="info-item">
-                <span class="info-icon">✉️</span>
+                <span class="info-icon"><i class="fa-solid fa-envelope" style="color: var(--primary-blue);"></i></span>
                 <div class="info-content">
                     <h3>Email</h3>
                     <a href="mailto:{{ $churchInfo->email ?? 'info@gbismojoagung.org' }}">
@@ -290,7 +290,7 @@
             </div>
             
             <div class="info-item">
-                <span class="info-icon">💬</span>
+                <span class="info-icon"><i class="fa-brands fa-whatsapp" style="color: #25D366;"></i></span>
                 <div class="info-content">
                     <h3>WhatsApp</h3>
                     <a href="{{ $churchInfo->whatsapp_link ?? 'https://wa.me/6281234567890' }}" target="_blank">

@@ -90,17 +90,17 @@
         <div class="event-content-admin">
             <h3 style="color: var(--primary-blue); margin-bottom: 0.5rem;">{{ $event->title }}</h3>
             <p style="color: var(--primary-red); font-weight: 600; margin-bottom: 0.5rem;">
-                📅 {{ \Carbon\Carbon::parse($event->date)->format('d M Y') }}
+                <i class="fa-solid fa-calendar-days"></i> {{ \Carbon\Carbon::parse($event->date)->format('d M Y') }}
             </p>
             <p style="color: #666; font-size: 0.9rem;">{{ Str::limit($event->description, 80) }}</p>
             
             <div class="event-actions">
                 <a href="{{ route('events.show', $event->slug) }}" class="btn btn-sm" style="background: #4caf50; color: white;">View</a>
                 <a href="{{ route('admin.events.edit', $event->id) }}" class="btn btn-sm" style="background: #2196f3; color: white;">Edit</a>
-                <form action="{{ route('admin.events.destroy', $event->id) }}" method="POST" onsubmit="return confirm('Delete this event?')">
+                <form id="deleteEventForm-{{ $event->id }}" action="{{ route('admin.events.destroy', $event->id) }}" method="POST">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-sm btn-delete">Delete</button>
+                    <button type="button" onclick="showDeleteModal('deleteEventForm-{{ $event->id }}', 'Hapus acara \'{{ $event->title }}\' secara permanen?')" class="btn btn-sm btn-delete">Delete</button>
                 </form>
             </div>
         </div>

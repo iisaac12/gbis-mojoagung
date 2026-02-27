@@ -47,7 +47,7 @@
                style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); text-decoration: none; color: inherit; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); border: 1px solid rgba(0,0,0,0.03); display: block; transition-delay: {{ ($index + 1) * 0.1 }}s;">
                 <h4 style="color: var(--primary-blue); margin-bottom: 0.5rem; transition: color 0.3s;">{{ $related->title }}</h4>
                 <p style="color: var(--primary-red); font-weight: 600; margin-bottom: 0.5rem;">
-                    📅 {{ \Carbon\Carbon::parse($related->date)->isoFormat('D MMMM Y') }}
+                    <i class="fa-solid fa-calendar-days"></i> {{ \Carbon\Carbon::parse($related->date)->isoFormat('D MMMM Y') }}
                 </p>
                 <p style="color: #666;">{{ Str::limit($related->description, 80) }}</p>
             </a>

@@ -142,8 +142,8 @@
 
     @if($heroImages->count() > 1)
     <div class="hero-nav">
-        <button class="hero-nav-btn prev">❮</button>
-        <button class="hero-nav-btn next">❯</button>
+        <button class="hero-nav-btn prev"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="hero-nav-btn next"><i class="fa-solid fa-chevron-right"></i></button>
     </div>
     @endif
 </section>
@@ -160,7 +160,7 @@
         <div class="event-content">
             <h3 class="event-title">{{ $event->title }}</h3>
             <p style="color: var(--primary-red); font-weight: 600; margin-bottom: 0.5rem;">
-                📅 {{ \Carbon\Carbon::parse($event->date)->isoFormat('D MMMM Y') }}
+                <i class="fa-solid fa-calendar-days"></i> {{ \Carbon\Carbon::parse($event->date)->isoFormat('D MMMM Y') }}
             </p>
             <p style="color: #666;">{{ Str::limit($event->description, 120) }}</p>
         </div>

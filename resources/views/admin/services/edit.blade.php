@@ -70,7 +70,7 @@
 
 @section('content')
 <div style="margin-bottom: 2rem;">
-    <a href="{{ route('admin.services.index') }}" style="color: var(--primary-blue); text-decoration: none;">← Back to Services</a>
+    <a href="{{ route('admin.services.index') }}" style="color: var(--primary-blue); text-decoration: none;">Back to Services</a>
     <h1 style="color: var(--primary-blue); margin-top: 1rem;">{{ isset($service) ? 'Edit Service' : 'Add New Service' }}</h1>
 </div>
 

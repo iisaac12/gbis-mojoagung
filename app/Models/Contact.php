@@ -14,7 +14,9 @@ class Contact extends Model
         'name',
         'email',
         'message',
-        'is_guest'
+        'is_guest',
+        'reply_message',
+        'replied_at'
     ];
 
     public function user()

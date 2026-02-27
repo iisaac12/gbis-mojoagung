@@ -103,7 +103,7 @@
 @section('content')
 <div class="page-header">
     <h1>Manage Services</h1>
-    <a href="{{ route('admin.services.create') }}" class="btn btn-primary">+ Add New Service</a>
+    <a href="{{ route('admin.services.create') }}" class="btn btn-primary"><i class="fa-solid fa-plus-circle"></i> Add New Service</a>
 </div>
 
 @if(session('success'))
@@ -131,11 +131,11 @@
                     <td>{{ $service->location }}</td>
                     <td>
                         <div class="action-buttons">
-                            <a href="{{ route('admin.services.edit', $service->id) }}" class="btn btn-sm btn-edit">Edit</a>
-                            <form action="{{ route('admin.services.destroy', $service->id) }}" method="POST" onsubmit="return confirm('Delete this service?')">
+                            <a href="{{ route('admin.services.edit', $service->id) }}" class="btn btn-sm btn-edit"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                            <form id="deleteServiceForm-{{ $service->id }}" action="{{ route('admin.services.destroy', $service->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-delete">Delete</button>
+                                <button type="button" onclick="showDeleteModal('deleteServiceForm-{{ $service->id }}', 'Hapus layanan \'{{ $service->title }}\' secara permanen?')" class="btn btn-sm btn-delete">Delete</button>
                             </form>
                         </div>
                     </td>

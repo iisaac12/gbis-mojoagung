@@ -30,23 +30,30 @@ class AppServiceProvider extends ServiceProvider
         View::composer('*', function ($view) {
             $routeName = Route::currentRouteName();
 
-            // Skip for admin routes to avoid overwriting controller data
-            if (!$routeName || str_starts_with($routeName, 'admin.')) {
-                return;
-            }
+            // Share churchInfo globally (cached for 1 hour)
+            $churchInfo = \Illuminate\Support\Facades\Cache::remember('church_info_global', 3600, function () {
+                    return \App\Models\ChurchInfo::first();
+                }
+                );
+                $view->with('churchInfo', $churchInfo);
 
-            $pageName = 'home'; // Default
-            if (str_contains($routeName, 'about'))
-                $pageName = 'about';
-            elseif (str_contains($routeName, 'contact'))
-                $pageName = 'contact';
-            elseif (str_contains($routeName, 'schedules'))
-                $pageName = 'schedules';
-            elseif (str_contains($routeName, 'events'))
-                $pageName = 'events';
+                // Skip hero images for admin routes to avoid overwriting controller data
+                if (!$routeName || str_starts_with($routeName, 'admin.')) {
+                    return;
+                }
 
-            $heroImages = HeroImage::forPage($pageName)->get();
-            $view->with('heroImages', $heroImages);
-        });
+                $pageName = 'home'; // Default
+                if (str_contains($routeName, 'about'))
+                    $pageName = 'about';
+                elseif (str_contains($routeName, 'contact'))
+                    $pageName = 'contact';
+                elseif (str_contains($routeName, 'schedules'))
+                    $pageName = 'schedules';
+                elseif (str_contains($routeName, 'events'))
+                    $pageName = 'events';
+
+                $heroImages = HeroImage::forPage($pageName)->get();
+                $view->with('heroImages', $heroImages);
+            });
     }
 }

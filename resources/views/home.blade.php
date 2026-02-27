@@ -261,8 +261,8 @@
 
     @if($heroImages->count() > 1)
     <div class="hero-nav">
-        <button class="hero-nav-btn prev">❮</button>
-        <button class="hero-nav-btn next">❯</button>
+        <button class="hero-nav-btn prev"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="hero-nav-btn next"><i class="fa-solid fa-chevron-right"></i></button>
     </div>
     @endif
 </section>
@@ -295,13 +295,13 @@
         <div class="schedule-card reveal" style="transition-delay: {{ $index * 0.1 }}s;">
             <h3>{{ $service->title }}</h3>
             <p class="schedule-date">
-                📅 {{ \Carbon\Carbon::parse($service->date)->isoFormat('dddd, D MMMM Y') }}
+                <i class="fa-solid fa-calendar-days"></i> {{ \Carbon\Carbon::parse($service->date)->isoFormat('dddd, D MMMM Y') }}
             </p>
             <p class="schedule-time">
-                🕐 {{ \Carbon\Carbon::parse($service->time_start)->format('H:i') }} - 
+                <i class="fa-solid fa-clock"></i> {{ \Carbon\Carbon::parse($service->time_start)->format('H:i') }} - 
                 {{ \Carbon\Carbon::parse($service->time_end)->format('H:i') }}
             </p>
-            <p class="schedule-time">📍 {{ $service->location }}</p>
+            <p class="schedule-time"><i class="fa-solid fa-location-dot"></i> {{ $service->location }}</p>
         </div>
         @empty
         <p style="text-align: center; grid-column: 1/-1;">
@@ -328,7 +328,7 @@
         <div class="schedule-card reveal" style="transition-delay: {{ $index * 0.1 }}s;">
             <h3>{{ $event->title }}</h3>
             <p class="schedule-date">
-                📅 {{ \Carbon\Carbon::parse($event->date)->isoFormat('dddd, D MMMM Y') }}
+                <i class="fa-solid fa-calendar-days"></i> {{ \Carbon\Carbon::parse($event->date)->isoFormat('dddd, D MMMM Y') }}
             </p>
             <p>{{ Str::limit($event->description, 100) }}</p>
             <a href="{{ route('events.show', $event->slug) }}" style="color: var(--primary-blue); font-weight: 600; text-decoration: none;">

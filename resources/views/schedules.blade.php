@@ -228,8 +228,8 @@
 
     @if($heroImages->count() > 1)
     <div class="hero-nav">
-        <button class="hero-nav-btn prev">❮</button>
-        <button class="hero-nav-btn next">❯</button>
+        <button class="hero-nav-btn prev"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="hero-nav-btn next"><i class="fa-solid fa-chevron-right"></i></button>
     </div>
     @endif
 </section>
@@ -264,18 +264,18 @@
             <h3>{{ $service->title }}</h3>
             
             <div class="schedule-info">
-                <span>📅</span>
+                <span><i class="fa-solid fa-calendar-days" style="color: var(--primary-red); margin-right: 0.5rem; width: 20px;"></i></span>
                 <strong>{{ \Carbon\Carbon::parse($service->date)->isoFormat('dddd, D MMMM Y') }}</strong>
             </div>
             
             <div class="schedule-info">
-                <span>🕐</span>
+                <span><i class="fa-solid fa-clock" style="color: var(--primary-blue); margin-right: 0.5rem; width: 20px;"></i></span>
                 <span>{{ \Carbon\Carbon::parse($service->time_start)->format('H:i') }} - 
                       {{ \Carbon\Carbon::parse($service->time_end)->format('H:i') }}</span>
             </div>
             
             <div class="schedule-info">
-                <span>📍</span>
+                <span><i class="fa-solid fa-location-dot" style="color: var(--primary-blue); margin-right: 0.5rem; width: 20px;"></i></span>
                 <span>{{ $service->location }}</span>
             </div>
             
