@@ -13,6 +13,8 @@ use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Admin\HeroImageController as AdminHeroImageController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
+use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\Admin\GalleryController as AdminGalleryController;
 
 // Public Routes
 Route::get('/', [HomeController::class , 'index'])->name('home');
@@ -20,6 +22,7 @@ Route::get('/about', [AboutController::class , 'index'])->name('about');
 Route::get('/schedules', [ScheduleController::class , 'index'])->name('schedules');
 Route::get('/events', [EventController::class , 'index'])->name('events');
 Route::get('/events/{slug}', [EventController::class , 'show'])->name('events.show');
+Route::get('/gallery', [GalleryController::class , 'index'])->name('gallery');
 Route::get('/contact', [ContactController::class , 'index'])->name('contact');
 Route::post('/contact', [ContactController::class , 'store'])->name('contact.store');
 
@@ -70,4 +73,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/contacts/{id}', [AdminContactController::class , 'show'])->name('admin.contacts.show');
     Route::post('/contacts/{id}/reply', [AdminContactController::class , 'reply'])->name('admin.contacts.reply');
     Route::delete('/contacts/{id}', [AdminContactController::class , 'destroy'])->name('admin.contacts.destroy');
+
+    // Gallery Management
+    Route::resource('gallery', AdminGalleryController::class)->except(['show'])->names([
+        'index' => 'admin.gallery.index',
+        'create' => 'admin.gallery.create',
+        'store' => 'admin.gallery.store',
+        'edit' => 'admin.gallery.edit',
+        'update' => 'admin.gallery.update',
+        'destroy' => 'admin.gallery.destroy',
+    ]);
 });

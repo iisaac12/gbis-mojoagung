@@ -264,6 +264,11 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{ route('admin.gallery.index') }}" class="{{ request()->routeIs('admin.gallery.*') ? 'active' : '' }}">
+                        <i class="fa-solid fa-images"></i> Gallery
+                    </a>
+                </li>
+                <li>
                     <a href="{{ route('admin.contacts.index') }}" class="{{ request()->routeIs('admin.contacts.*') ? 'active' : '' }}">
                         <i class="fa-solid fa-envelope"></i> Contacts
                     </a>

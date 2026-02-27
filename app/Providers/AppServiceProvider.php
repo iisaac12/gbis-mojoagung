@@ -51,6 +51,8 @@ class AppServiceProvider extends ServiceProvider
                     $pageName = 'schedules';
                 elseif (str_contains($routeName, 'events'))
                     $pageName = 'events';
+                elseif (str_contains($routeName, 'gallery'))
+                    $pageName = 'gallery';
 
                 $heroImages = HeroImage::forPage($pageName)->get();
                 $view->with('heroImages', $heroImages);

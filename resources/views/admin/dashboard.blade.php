@@ -194,6 +194,12 @@
     </div>
     
     <div class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-images" style="color: #9b59b6;"></i></div>
+        <div class="stat-value">{{ \App\Models\Gallery::count() }}</div>
+        <div class="stat-label">Gallery Photos</div>
+    </div>
+    
+    <div class="stat-card">
         <div class="stat-icon"><i class="fa-solid fa-users" style="color: #27ae60;"></i></div>
         <div class="stat-value">{{ $stats['total_members'] }}</div>
         <div class="stat-label">Members</div>

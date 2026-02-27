@@ -164,9 +164,12 @@
         
         /* Footer Styles */
         .footer {
-            background: var(--gray-dark);
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('{{ asset('images/footer.jpg') }}');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             color: var(--white);
-            padding: 3rem 2rem 1rem;
+            padding: 4rem 2rem 2rem;
         }
         
         .footer-container {

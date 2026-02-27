@@ -16,6 +16,7 @@
             <li><a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">Tentang</a></li>
             <li><a href="{{ route('schedules') }}" class="{{ request()->routeIs('schedules') ? 'active' : '' }}">Jadwal</a></li>
             <li><a href="{{ route('events') }}" class="{{ request()->routeIs('events') ? 'active' : '' }}">Acara</a></li>
+            <li><a href="{{ route('gallery') }}" class="{{ request()->routeIs('gallery') ? 'active' : '' }}">Galeri</a></li>
             <li><a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">Kontak</a></li>
             
             @auth

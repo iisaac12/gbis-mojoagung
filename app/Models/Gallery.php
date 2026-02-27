@@ -14,12 +14,9 @@ class Gallery extends Model
 
     protected $fillable = [
         'title',
+        'description',
         'image_url',
-        'uploaded_at'
-    ];
-
-    protected $casts = [
-        'uploaded_at' => 'datetime',
+        'category'
     ];
 
     /**
@@ -31,12 +28,12 @@ class Gallery extends Model
         if (filter_var($this->image_url, FILTER_VALIDATE_URL)) {
             return $this->image_url;
         }
-        
+
         // If file exists in storage, return storage URL
         if (Storage::disk('public')->exists($this->image_url)) {
             return asset('storage/' . $this->image_url);
         }
-        
+
         // Otherwise return as asset
         return asset($this->image_url);
     }
