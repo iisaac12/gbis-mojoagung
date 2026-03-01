@@ -48,12 +48,9 @@ class Gallery extends Model
         return $this->image_url_full;
     }
 
-    /**
-     * Scope to get recent gallery items
-     */
     public function scopeRecent($query, $limit = 10)
     {
-        return $query->orderBy('uploaded_at', 'desc')->limit($limit);
+        return $query->orderBy('created_at', 'desc')->limit($limit);
     }
 
     /**
