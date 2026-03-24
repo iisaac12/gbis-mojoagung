@@ -166,10 +166,17 @@
         transition: all 0.3s;
     }
     
-    .btn-submit:hover {
+    .btn-submit:hover:not(:disabled) {
         background: #003a8c;
         transform: translateY(-2px);
         box-shadow: 0 5px 15px rgba(0, 74, 173, 0.3);
+    }
+
+    .btn-submit:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+        transform: none !important;
+        box-shadow: none !important;
     }
     
     .alert {
@@ -310,6 +317,12 @@
             </div>
             @endif
             
+            @if(session('error'))
+            <div class="alert alert-error">
+                {{ session('error') }}
+            </div>
+            @endif
+            
             @if($errors->any())
             <div class="alert alert-error">
                 <ul style="margin: 0; padding-left: 1.5rem;">
@@ -320,7 +333,7 @@
             </div>
             @endif
             
-            <form action="{{ route('contact.store') }}" method="POST">
+            <form action="{{ route('contact.store') }}" method="POST" id="contactForm">
                 @csrf
                 
                 <div class="form-group">
@@ -402,5 +415,17 @@
             heroContent.style.opacity = 0;
         }
     });
+
+    // Prevent double submission
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function() {
+            const submitBtn = this.querySelector('.btn-submit');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengirim...';
+            }
+        });
+    }
 </script>
 @endpush

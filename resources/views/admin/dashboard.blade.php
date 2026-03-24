@@ -205,6 +205,151 @@
         <div class="stat-label">Members</div>
         <small style="color: #666;">{{ $stats['total_admins'] }} admins</small>
     </div>
+    <div class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-bullhorn" style="color: #34495e;"></i></div>
+        <div class="stat-value">{{ $stats['total_announcements'] }}</div>
+        <div class="stat-label">Announcements</div>
+        <small style="color: green;">{{ $stats['active_announcements'] }} active</small>
+    </div>
+</div>
+
+<!-- Member Statistics Chart -->
+<div class="recent-section" style="margin-bottom: 2rem;">
+    <h2>
+        <span><i class="fa-solid fa-chart-line" style="color: #34495e; margin-right: 0.5rem;"></i> Member Growth Statistics</span>
+    </h2>
+    <div style="background: white; padding: 2rem; border-radius: 15px; margin-top: 1rem;">
+        <canvas id="memberChart" style="max-height: 350px;"></canvas>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('memberChart').getContext('2d');
+        
+        // Create Gradient
+        const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, 'rgba(0, 74, 173, 0.2)');
+        gradient.addColorStop(1, 'rgba(0, 74, 173, 0)');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {!! json_encode($memberStats['labels']) !!},
+                datasets: [{
+                    label: 'New Members',
+                    data: {!! json_encode($memberStats['data']) !!},
+                    borderColor: '#004aad',
+                    backgroundColor: gradient,
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#004aad',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 6,
+                    pointHoverRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: '#333',
+                        padding: 12,
+                        titleFont: { size: 14, weight: 'bold' },
+                        bodyFont: { size: 13 },
+                        displayColors: false,
+                        callbacks: {
+                            label: function(context) {
+                                return context.parsed.y + ' members registered';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1,
+                            color: '#999',
+                            font: { size: 11 }
+                        },
+                        grid: {
+                            color: '#f0f0f0',
+                            drawBorder: false
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: '#999',
+                            font: { size: 11 }
+                        },
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+<!-- Recent Announcements -->
+<div class="recent-section">
+    <h2>
+        <span><i class="fa-solid fa-bullhorn" style="color: #34495e; margin-right: 0.5rem;"></i> Recent Announcements</span>
+        <a href="{{ route('admin.announcements.index') }}" class="view-all">View All</a>
+    </h2>
+    
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th style="padding: 1rem;">Title</th>
+                    <th style="padding: 1rem; width: 120px;">Type</th>
+                    <th style="padding: 1rem; width: 100px;">Status</th>
+                    <th style="padding: 1rem; width: 150px;">Created</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($recentAnnouncements as $announcement)
+                <tr>
+                    <td style="padding: 1rem;">
+                        <div style="font-weight: 600;">{{ $announcement->title }}</div>
+                        <div style="font-size: 0.8rem; color: #888;">{{ Str::limit($announcement->content, 50) }}</div>
+                    </td>
+                    <td style="padding: 1rem;">
+                        <span class="badge" style="padding: 0.3rem 0.6rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600;
+                            @if($announcement->type == 'warning') background: #fff3e0; color: #e65100;
+                            @elseif($announcement->type == 'success') background: #e8f5e9; color: #2e7d32;
+                            @elseif($announcement->type == 'important') background: #ffebee; color: #c62828;
+                            @else background: #e3f2fd; color: #1976d2;
+                            @endif
+                        ">
+                            {{ ucfirst($announcement->type) }}
+                        </span>
+                    </td>
+                    <td style="padding: 1rem;">
+                        <span style="font-size: 0.85rem; font-weight: 500; color: {{ $announcement->is_active ? '#2e7d32' : '#999' }};">
+                            {{ $announcement->is_active ? 'Active' : 'Inactive' }}
+                        </span>
+                    </td>
+                    <td style="padding: 1rem; font-size: 0.85rem; color: #777;">{{ $announcement->created_at->format('d M Y') }}</td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="4" style="text-align: center; color: #999; padding: 2rem;">No announcements found</td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <!-- Recent Services -->

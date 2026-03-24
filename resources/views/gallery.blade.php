@@ -38,10 +38,15 @@
         padding: 4rem 2rem;
     }
 
+    /* Masonry Layout Adjustments */
     .gallery-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-        gap: 2rem;
+        margin: 0 -1rem; /* Adjust for gutters */
+    }
+
+    .gallery-item {
+        width: 33.333%;
+        padding: 1rem;
+        box-sizing: border-box;
     }
 
     .gallery-card {
@@ -53,23 +58,24 @@
         position: relative;
         cursor: pointer;
         border: 1px solid rgba(0,0,0,0.03);
+        height: 100%;
+        display: block;
     }
 
     .gallery-card:hover {
-        transform: translateY(-10px);
+        transform: translateY(-8px);
         box-shadow: 0 20px 40px rgba(0,0,0,0.1);
     }
 
     .gallery-card img {
         width: 100%;
-        height: 300px;
-        object-fit: cover;
+        height: auto; /* Allow natural aspect ratio */
         display: block;
         transition: transform 0.8s ease;
     }
 
     .gallery-card:hover img {
-        transform: scale(1.05);
+        transform: scale(1.03);
     }
 
     .gallery-overlay {
@@ -77,11 +83,11 @@
         bottom: 0;
         left: 0;
         right: 0;
-        background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-        padding: 2rem 1.5rem;
+        background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+        padding: 2.5rem 1.5rem 1.5rem;
         color: white;
         opacity: 0;
-        transition: opacity 0.4s ease;
+        transition: all 0.4s ease;
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
@@ -91,14 +97,15 @@
         opacity: 1;
     }
 
-    .gallery-overlay h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
-    .gallery-overlay p { font-size: 0.9rem; opacity: 0.9; }
+    .gallery-overlay h3 { font-size: 1.1rem; margin-bottom: 0.4rem; font-weight: 600; }
+    .gallery-overlay p { font-size: 0.85rem; opacity: 0.9; line-height: 1.4; }
+    
     .gallery-overlay .cat-badge {
         display: inline-block;
-        background: var(--primary-red);
-        padding: 0.25rem 0.75rem;
-        border-radius: 15px;
-        font-size: 0.7rem;
+        background: var(--primary-red, #E53935);
+        padding: 0.2rem 0.6rem;
+        border-radius: 12px;
+        font-size: 0.65rem;
         font-weight: 700;
         text-transform: uppercase;
         margin-bottom: 0.5rem;
@@ -111,10 +118,26 @@
         justify-content: center;
     }
 
+    /* Responsive Adjustments */
+    @media (max-width: 1024px) {
+        .gallery-item { width: 50%; }
+    }
+
     @media (max-width: 768px) {
         .gallery-hero h1 { font-size: 2.5rem; }
-        .gallery-grid { grid-template-columns: 1fr; }
-        .gallery-overlay { opacity: 1; background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.2)); }
+        .gallery-item { 
+            width: 50%; /* 2 Columns on Mobile - Pinterest Style */
+            padding: 0.5rem;
+        }
+        .gallery-grid { margin: 0 -0.5rem; }
+        .gallery-card { border-radius: 12px; }
+        .gallery-overlay { 
+            opacity: 1; 
+            padding: 1.5rem 0.8rem 0.8rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); 
+        }
+        .gallery-overlay h3 { font-size: 0.9rem; }
+        .gallery-overlay p { display: none; } /* Hide description on mobile to keep it clean */
     }
 </style>
 @endpush
@@ -143,21 +166,23 @@
 
 <div class="gallery-container">
     @if($photos->count() > 0)
-    <div class="gallery-grid">
+    <div class="gallery-grid" id="masonry-grid">
         @foreach($photos as $index => $photo)
-        <div class="gallery-card reveal" style="transition-delay: {{ $index * 0.1 }}s;">
-            <img src="{{ asset('storage/' . $photo->image_url) }}" alt="{{ $photo->title }}">
-            <div class="gallery-overlay">
-                @if($photo->category)
-                <span class="cat-badge">{{ $photo->category }}</span>
-                @endif
-                <h3>{{ $photo->title ?? 'Dokumentasi Gereja' }}</h3>
-                @if($photo->description)
-                <p>{{ Str::limit($photo->description, 100) }}</p>
-                @endif
-                <p style="font-size: 0.75rem; margin-top: 0.5rem; opacity: 0.7;">
-                    <i class="fa-solid fa-calendar-day"></i> {{ $photo->created_at->isoFormat('D MMMM Y') }}
-                </p>
+        <div class="gallery-item">
+            <div class="gallery-card reveal" style="transition-delay: {{ $index * 0.05 }}s;">
+                <img src="{{ asset('storage/' . $photo->image_url) }}" alt="{{ $photo->title }}">
+                <div class="gallery-overlay">
+                    @if($photo->category)
+                    <span class="cat-badge">{{ $photo->category }}</span>
+                    @endif
+                    <h3>{{ $photo->title ?? 'Dokumentasi Gereja' }}</h3>
+                    @if($photo->description)
+                    <p>{{ Str::limit($photo->description, 60) }}</p>
+                    @endif
+                    <p style="font-size: 0.7rem; margin-top: 0.4rem; opacity: 0.7;">
+                        <i class="fa-solid fa-calendar-day"></i> {{ $photo->created_at->isoFormat('D MMM Y') }}
+                    </p>
+                </div>
             </div>
         </div>
         @endforeach
@@ -177,21 +202,42 @@
 @endsection
 
 @push('scripts')
+<!-- Masonry & imagesLoaded Libraries -->
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+<script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
+
 <script>
-    document.addEventListener('scroll', function() {
-        const heroContent = document.getElementById('gallery-hero-content');
-        if (!heroContent) return;
-        
-        const scrollPosition = window.scrollY;
-        const opacity = 1 - (scrollPosition / 300);
-        const transform = scrollPosition * 0.3;
-        
-        if (opacity >= 0) {
-            heroContent.style.opacity = opacity;
-            heroContent.style.transform = `translateY(${transform}px)`;
-        } else {
-            heroContent.style.opacity = 0;
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize Masonry after images are loaded
+        var grid = document.querySelector('#masonry-grid');
+        if (grid) {
+            var msnry;
+            imagesLoaded(grid, function() {
+                msnry = new Masonry(grid, {
+                    itemSelector: '.gallery-item',
+                    columnWidth: '.gallery-item',
+                    percentPosition: true,
+                    transitionDuration: '0.4s'
+                });
+            });
         }
+
+        // Hero Parallax Effect
+        window.addEventListener('scroll', function() {
+            const heroContent = document.getElementById('gallery-hero-content');
+            if (!heroContent) return;
+            
+            const scrollPosition = window.scrollY;
+            const opacity = 1 - (scrollPosition / 400);
+            const transform = scrollPosition * 0.4;
+            
+            if (opacity >= 0) {
+                heroContent.style.opacity = opacity;
+                heroContent.style.transform = `translateY(${transform}px)`;
+            } else {
+                heroContent.style.opacity = 0;
+            }
+        });
     });
 </script>
 @endpush

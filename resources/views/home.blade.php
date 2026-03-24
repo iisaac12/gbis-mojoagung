@@ -230,6 +230,112 @@
             padding: 1.1rem 2rem;
         }
     }
+
+    /* Announcements Styles */
+    .announcement-section {
+        background: #fdfdfd;
+        padding-bottom: 2rem;
+    }
+
+    .announcement-container {
+        max-width: 1200px;
+        margin: -40px auto 3rem;
+        position: relative;
+        z-index: 20;
+        padding: 0 2rem;
+    }
+
+    .announcement-card {
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem 2rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        border-left: 6px solid var(--primary-blue);
+        animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        margin-bottom: 1rem;
+    }
+
+    .announcement-card.warning { border-left-color: #FFA000; }
+    .announcement-card.success { border-left-color: #43A047; }
+    .announcement-card.important { border-left-color: var(--primary-red); }
+
+    .announcement-icon {
+        font-size: 1.8rem;
+        color: var(--primary-blue);
+        background: rgba(0, 74, 173, 0.05);
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .announcement-card.warning .announcement-icon { color: #FFA000; background: rgba(255, 160, 0, 0.05); }
+    .announcement-card.important .announcement-icon { color: var(--primary-red); background: rgba(198, 40, 40, 0.05); }
+
+    .announcement-content {
+        flex-grow: 1;
+    }
+
+    .announcement-content h3 {
+        margin-bottom: 0.25rem;
+        font-size: 1.1rem;
+        color: var(--gray-dark);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .announcement-badge {
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        background: var(--primary-red);
+        color: white;
+        padding: 0.2rem 0.6rem;
+        border-radius: 10px;
+        font-weight: 700;
+    }
+
+    .announcement-content p {
+        font-size: 0.95rem;
+        color: #666;
+        line-height: 1.4;
+    }
+
+    .announcement-date {
+        font-size: 0.75rem;
+        color: #999;
+        margin-top: 0.25rem;
+    }
+
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+        .announcement-container {
+            margin-top: -30px;
+            padding: 0 1.5rem;
+        }
+        .announcement-card {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1.5rem;
+        }
+        .announcement-icon {
+            width: 45px;
+            height: 45px;
+            font-size: 1.4rem;
+        }
+    }
+
     }
 </style>
 @endpush
@@ -266,6 +372,40 @@
     </div>
     @endif
 </section>
+
+<!-- Announcements Section -->
+@if($announcements->count() > 0)
+<div class="announcement-section">
+    <div class="announcement-container">
+        @foreach($announcements as $index => $announcement)
+        <div class="announcement-card {{ $announcement->type }} reveal" style="transition-delay: {{ $index * 0.1 }}s;">
+            <div class="announcement-icon">
+                @if($announcement->type == 'warning' || $announcement->type == 'important')
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                @elseif($announcement->type == 'success')
+                    <i class="fa-solid fa-circle-check"></i>
+                @else
+                    <i class="fa-solid fa-circle-info"></i>
+                @endif
+            </div>
+            <div class="announcement-content">
+                <h3>
+                    {{ $announcement->title }}
+                    @if($announcement->is_pinned)
+                    <span class="announcement-badge">Penting</span>
+                    @endif
+                </h3>
+                <p>{{ $announcement->content }}</p>
+                <div class="announcement-date">
+                    <i class="fa-solid fa-clock"></i> {{ $announcement->created_at->diffForHumans() }}
+                </div>
+            </div>
+        </div>
+        @endforeach
+    </div>
+</div>
+@endif
+
 
 <!-- Vision & Mission -->
 <section class="section">

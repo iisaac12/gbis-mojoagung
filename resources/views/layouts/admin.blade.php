@@ -259,6 +259,11 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{ route('admin.announcements.index') }}" class="{{ request()->routeIs('admin.announcements.*') ? 'active' : '' }}">
+                        <i class="fa-solid fa-bullhorn"></i> Announcements
+                    </a>
+                </li>
+                <li>
                     <a href="{{ route('admin.heroes.index') }}" class="{{ request()->routeIs('admin.heroes.*') ? 'active' : '' }}">
                         <i class="fa-solid fa-image"></i> Heroes
                     </a>

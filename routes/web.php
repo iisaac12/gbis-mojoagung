@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\HeroImageController as AdminHeroImageController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\Admin\GalleryController as AdminGalleryController;
+use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
 
 // Public Routes
 Route::get('/', [HomeController::class , 'index'])->name('home');
@@ -82,5 +83,15 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         'edit' => 'admin.gallery.edit',
         'update' => 'admin.gallery.update',
         'destroy' => 'admin.gallery.destroy',
+    ]);
+
+    // Announcements Management
+    Route::resource('announcements', AdminAnnouncementController::class)->except(['show'])->names([
+        'index' => 'admin.announcements.index',
+        'create' => 'admin.announcements.create',
+        'store' => 'admin.announcements.store',
+        'edit' => 'admin.announcements.edit',
+        'update' => 'admin.announcements.update',
+        'destroy' => 'admin.announcements.destroy',
     ]);
 });

@@ -25,7 +25,13 @@ class ContactController extends Controller
         ]);
 
         $isGuest = !Auth::check();
-        $userId = Auth::check() ?Auth::id() : null;
+        $userId = Auth::check() ? Auth::id() : null;
+
+        // Prevent duplicate submission within 30 seconds
+        $lastSubmission = session('last_contact_submission');
+        if ($lastSubmission && now()->timestamp - $lastSubmission < 30) {
+            return redirect()->back()->with('error', 'Silakan tunggu sebentar sebelum mengirim pesan lagi.');
+        }
 
         // Save to database
         Contact::create([
@@ -35,6 +41,8 @@ class ContactController extends Controller
             'message' => $request->message,
             'is_guest' => $isGuest,
         ]);
+
+        session(['last_contact_submission' => now()->timestamp]);
 
         // Send email notification if guest
         if ($isGuest) {

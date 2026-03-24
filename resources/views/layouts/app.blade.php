@@ -164,10 +164,10 @@
         
         /* Footer Styles */
         .footer {
-            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('{{ asset('images/footer.jpg') }}');
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('{{ asset('images/footer3.jpg') }}');
             background-size: cover;
             background-position: center;
-            background-attachment: fixed;
+            background-attachment: scroll;
             color: var(--white);
             padding: 4rem 2rem 2rem;
         }

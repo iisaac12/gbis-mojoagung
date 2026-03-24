@@ -8,6 +8,7 @@ use App\Models\Service;
 use App\Models\Event;
 use App\Models\Contact;
 use App\Models\User;
+use App\Models\Announcement;
 use Carbon\Carbon;
 
 class DashboardController extends Controller
@@ -24,8 +25,26 @@ class DashboardController extends Controller
             'unread_contacts' => Contact::whereNull('user_id')->count(), // Guest messages
             'total_members' => User::members()->count(),
             'total_admins' => User::admins()->count(),
+            'total_announcements' => Announcement::count(),
+            'active_announcements' => Announcement::active()->count(),
         ];
         
+        // Member Statistics for Chart (Last 6 Months)
+        $memberStats = [];
+        for ($i = 5; $i >= 0; $i--) {
+            $month = Carbon::now()->subMonths($i);
+            $count = User::members()
+                        ->whereMonth('created_at', $month->month)
+                        ->whereYear('created_at', $month->year)
+                        ->count();
+            
+            $memberStats['labels'][] = $month->format('M Y');
+            $memberStats['data'][] = $count;
+        }
+        
+        // Get recent announcements
+        $recentAnnouncements = Announcement::orderBy('created_at', 'desc')->limit(5)->get();
+
         // Get recent services
         $recentServices = Service::orderBy('date', 'desc')
                                  ->orderBy('time_start', 'desc')
@@ -46,7 +65,9 @@ class DashboardController extends Controller
             'stats',
             'recentServices',
             'recentEvents',
-            'recentContacts'
+            'recentContacts',
+            'recentAnnouncements',
+            'memberStats'
         ));
     }
 }

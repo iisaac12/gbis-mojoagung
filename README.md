@@ -9,18 +9,21 @@ Website resmi GBIS Mojoagung yang dibangun dengan Laravel 9, dirancang untuk mem
 - **Jadwal Ibadah:** Daftar lengkap jadwal pelayanan mingguan dengan informasi waktu dan lokasi yang jelas.
 - **Acara (Events):** Halaman khusus untuk melihat detail acara gereja, lengkap dengan deskripsi dan rekomendasi acara terkait.
 - **Galeri Kegiatan:** Dokumentasi foto kegiatan gereja yang rapi, dikategorikan, dan dilengkapi dengan animasi hover yang elegan.
+- **Sistem Pengumuman:** Tampilan pengumuman penting di halaman Home dengan status visual (Info, Success, Warning, Important) dan fitur Pinned.
 - **Hubungi Kami:** Form kontak interaktif yang terhubung langsung ke dashboard admin, serta tautan cepat ke WhatsApp dan Email resmi.
 - **Desain Responsif:** Tampilan yang optimal di berbagai perangkat (HP, Tablet, Laptop) dengan estetika premium menggunakan *glassmorphism* dan ikon FontAwesome.
 
 ## 🛠️ Fitur Admin (Dashboard Pengelolaan)
 
-- **Statistik Dashboard:** Pantauan cepat jumlah layanan, acara, pesan kontak masuk, dan koleksi foto galeri.
+- **Statistik Dashboard:** Pantauan cepat jumlah layanan, acara, pesan kontak masuk, koleksi foto galeri, dan pengumuman aktif.
 - **Manajemen Ibadah (Services):** CRUD (Create, Read, Update, Delete) untuk mengatur jadwal ibadah mingguan.
+- **Manajemen Pengumuman:** Pengelolaan pengumuman publik dengan kategori visual, status aktif, dan fitur penyematan (Pinned).
 - **Manajemen Acara (Events):** Pengelolaan acara dengan fitur unggah gambar, pengaturan slug otomatis, dan deskripsi lengkap.
 - **Manajemen Galeri:** Unggah dan kategorikan foto kegiatan pelayanan dengan sistem pengelolaan file yang efisien.
 - **Sistem Pesan Kontak:** 
     - Membaca pesan masuk dari jemaat.
     - Membalas pesan secara langsung melalui email dari aplikasi.
+    - Pencegahan duplikasi pesan dengan sistem rate-limiting dan JS button disabling.
     - Penghapusan pesan dengan modal konfirmasi kustom.
 - **Pengaturan Info Gereja:** Kelola alamat, nomor WhatsApp, dan link sosial media secara terpusat (otomatis memperbarui seluruh footer website).
 - **Manajemen Hero Slider:** Unggah dan pilih gambar slider yang tampil di setiap halaman publik secara dinamis.
